@@ -11,6 +11,7 @@ export default function App() {
   const [filter, setFilter] = useState({ emailStatus: '', contactStatus: '', search: '', tags: '' });
   const [editContact, setEditContact] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -117,19 +118,23 @@ export default function App() {
           </div>
         </div>
 
-        <div className="filters">
-          <input name="search" placeholder="Search" value={filter.search} onChange={handleFilterChange} />
-          <input name="tags" placeholder="Tags" value={filter.tags} onChange={handleFilterChange} />
-          <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
-            <option value="">All Email Status</option>
-            <option value="Subscribed">Subscribed</option>
-            <option value="Unsubscribed">Unsubscribed</option>
-            <option value="Not Specified">Not Specified</option>
-          </select>
-          <input name="contactStatus" placeholder="Contact Status" value={filter.contactStatus} onChange={handleFilterChange} />
-          <button onClick={resetFilter}>Reset</button>
+        {/* Search + Filters + Export */}
+        <div className="topbar">
+          <input
+            type="text"
+            className="search-input"
+            name="search"
+            placeholder="🔍 Search by email or name"
+            value={filter.search}
+            onChange={handleFilterChange}
+          />
+          <div className="topbar-buttons">
+            <button className="btn-outline" onClick={() => setShowFilters(true)}>Filters</button>
+            <button className="btn-filled">Export</button>
+          </div>
         </div>
 
+        {/* Table */}
         <table>
           <thead>
             <tr>
@@ -165,6 +170,7 @@ export default function App() {
         </div>
       </main>
 
+      {/* Add/Edit Modal */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -185,6 +191,30 @@ export default function App() {
               <button type="submit">{editContact ? 'Update' : 'Add'}</button>
               <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Filter Panel Drawer */}
+      {showFilters && (
+        <div className="filter-drawer">
+          <div className="filter-header">
+            <h3>Filters</h3>
+            <button className="close-btn" onClick={() => setShowFilters(false)}>✕</button>
+          </div>
+          <div className="filter-body">
+            <input name="tags" placeholder="Tags" value={filter.tags} onChange={handleFilterChange} />
+            <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
+              <option value="">All Email Status</option>
+              <option value="Subscribed">Subscribed</option>
+              <option value="Unsubscribed">Unsubscribed</option>
+              <option value="Not Specified">Not Specified</option>
+            </select>
+            <input name="contactStatus" placeholder="Contact Status" value={filter.contactStatus} onChange={handleFilterChange} />
+          </div>
+          <div className="filter-footer">
+            <button className="btn-outline" onClick={resetFilter}>Reset</button>
+            <button className="btn-filled" onClick={() => setShowFilters(false)}>Apply</button>
           </div>
         </div>
       )}
