@@ -87,12 +87,35 @@ export default function App() {
       </aside>
 
       <main className="main-content">
-        <div className="header">
-          <h1>Contacts</h1>
-          <div>
-            <button onClick={() => setShowModal(true)}>Add Contact</button>
-          </div>
-        </div>
+        <div className="header-top">
+  <div>
+    <h2>Contacts</h2>
+    <p className="domain-label">For: <span>birdsongcafe.com</span></p>
+  </div>
+  <div className="header-buttons">
+    <button className="btn-outline">Import Contacts</button>
+    <button className="btn-filled" onClick={() => setShowModal(true)}>Add a Contact</button>
+  </div>
+</div>
+
+<div className="summary-cards">
+  <div className="card">
+    <p>Total contacts</p>
+    <h3>{contacts.length}</h3>
+    <span className="trend up">+11 past 30 days</span>
+  </div>
+  <div className="card">
+    <p>Subscribed</p>
+    <h3>{contacts.filter(c => c.emailStatus === 'Subscribed').length}</h3>
+    <span className="trend up">+6 past 30 days</span>
+  </div>
+  <div className="card">
+    <p>Not subscribed</p>
+    <h3>{contacts.filter(c => c.emailStatus === 'Unsubscribed').length}</h3>
+    <span className="trend down">-5 past 30 days</span>
+  </div>
+</div>
+
 
         <div className="filters">
           <input name="search" placeholder="Search" value={filter.search} onChange={handleFilterChange} />
