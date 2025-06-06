@@ -41,9 +41,9 @@ export default function App() {
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleFilterChange = (e) => setFilter({ ...filter, [e.target.name]: e.target.value });
+  const resetFilter = () => setFilter({ emailStatus: '', contactStatus: '', search: '', tags: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,80 +77,89 @@ export default function App() {
     }
   };
 
-  const handleFilterChange = (e) => {
-    setFilter({ ...filter, [e.target.name]: e.target.value });
-  };
-
-  const resetFilter = () => {
-    setFilter({ emailStatus: '', contactStatus: '', search: '', tags: '' });
-  };
-
   return (
-    <div className="app">
-      <h2>{editContact ? 'Edit Contact' : 'Add a Contact'}</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} />
-        <input name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} />
-        <input name="email" placeholder="Email Address" required value={formData.email} onChange={handleChange} />
-        <select name="emailStatus" value={formData.emailStatus} onChange={handleChange}>
-          <option>Subscribed</option>
-          <option>Unsubscribed</option>
-          <option>Not Specified</option>
-        </select>
-        <input name="list" placeholder="Add to List(s)" value={formData.list} onChange={handleChange} />
-        <input name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} />
-        <input name="contactStatus" placeholder="Contact Status" value={formData.contactStatus} onChange={handleChange} />
-        <input name="tags" placeholder="Contact Tags (comma-separated)" value={formData.tags} onChange={handleChange} />
-        <button type="submit">{editContact ? 'Update Contact' : 'Add Contact'}</button>
-      </form>
+    <div className="container">
+      <aside className="sidebar">
+        <h2>Customers</h2>
+        <ul>
+          <li className="active">Contacts</li>
+        </ul>
+      </aside>
 
-      <h3>Search & Filter Contacts</h3>
-      <input name="search" placeholder="Search by name or email" value={filter.search} onChange={handleFilterChange} />
-      <input name="tags" placeholder="Filter by Tags (comma separated)" value={filter.tags} onChange={handleFilterChange} />
-      <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
-        <option value="">All Email Status</option>
-        <option value="Subscribed">Subscribed</option>
-        <option value="Unsubscribed">Unsubscribed</option>
-        <option value="Not Specified">Not Specified</option>
-      </select>
-      <input name="contactStatus" placeholder="Contact Status" value={filter.contactStatus} onChange={handleFilterChange} />
-      <button onClick={resetFilter}>Reset Filters</button>
+      <main className="main-content">
+        <div className="header">
+          <h1>Contacts</h1>
+          <div>
+            <button onClick={() => setShowModal(true)}>Add Contact</button>
+          </div>
+        </div>
 
-      <h3>Contact List</h3>
-      <ul>
-        {contacts.map((c) => (
-          <li key={c._id}>
-            {c.firstName} {c.lastName} - {c.email}
-            <button onClick={() => openEditModal(c)}>Edit</button>
-            <button onClick={() => handleDelete(c._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+        <div className="filters">
+          <input name="search" placeholder="Search" value={filter.search} onChange={handleFilterChange} />
+          <input name="tags" placeholder="Tags" value={filter.tags} onChange={handleFilterChange} />
+          <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
+            <option value="">All Email Status</option>
+            <option value="Subscribed">Subscribed</option>
+            <option value="Unsubscribed">Unsubscribed</option>
+            <option value="Not Specified">Not Specified</option>
+          </select>
+          <input name="contactStatus" placeholder="Contact Status" value={filter.contactStatus} onChange={handleFilterChange} />
+          <button onClick={resetFilter}>Reset</button>
+        </div>
 
-      <div className="pagination">
-        <button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1}>Prev</button>
-        <span>Page {page} of {totalPages}</span>
-        <button onClick={() => setPage(p => Math.min(p + 1, totalPages))} disabled={page === totalPages}>Next</button>
-      </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Email Status</th>
+              <th>Phone</th>
+              <th>Tags</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contacts.map((c) => (
+              <tr key={c._id}>
+                <td>{c.firstName} {c.lastName}</td>
+                <td>{c.email}</td>
+                <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
+                <td>{c.phone}</td>
+                <td>{c.tags}</td>
+                <td>
+                  <button onClick={() => openEditModal(c)}>Edit</button>
+                  <button onClick={() => handleDelete(c._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div className="pagination">
+          <button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1}>Prev</button>
+          <span>Page {page} of {totalPages}</span>
+          <button onClick={() => setPage(p => Math.min(p + 1, totalPages))} disabled={page === totalPages}>Next</button>
+        </div>
+      </main>
 
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h3>Edit Contact</h3>
+            <h3>{editContact ? 'Edit Contact' : 'Add a Contact'}</h3>
             <form onSubmit={handleSubmit}>
-              <input name="firstName" value={formData.firstName} onChange={handleChange} />
-              <input name="lastName" value={formData.lastName} onChange={handleChange} />
-              <input name="email" value={formData.email} onChange={handleChange} />
+              <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+              <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
               <select name="emailStatus" value={formData.emailStatus} onChange={handleChange}>
                 <option>Subscribed</option>
                 <option>Unsubscribed</option>
                 <option>Not Specified</option>
               </select>
-              <input name="list" value={formData.list} onChange={handleChange} />
-              <input name="phone" value={formData.phone} onChange={handleChange} />
-              <input name="contactStatus" value={formData.contactStatus} onChange={handleChange} />
-              <input name="tags" value={formData.tags} onChange={handleChange} />
-              <button type="submit">Save</button>
+              <input name="list" value={formData.list} onChange={handleChange} placeholder="List" />
+              <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
+              <input name="contactStatus" value={formData.contactStatus} onChange={handleChange} placeholder="Status" />
+              <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Tags" />
+              <button type="submit">{editContact ? 'Update' : 'Add'}</button>
               <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
             </form>
           </div>

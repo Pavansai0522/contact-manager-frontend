@@ -1,12 +1,65 @@
-.app {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 500px;
-  margin: auto;
+/* App.css */
+.container {
+  display: flex;
+  font-family: sans-serif;
 }
-input, select, button {
-  display: block;
-  margin-bottom: 10px;
-  padding: 8px;
+
+.sidebar {
+  width: 200px;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar h2 {
+  margin-bottom: 1rem;
+}
+
+.sidebar .active {
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+table {
   width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 0.75rem;
+}
+
+.badge {
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.badge.subscribed {
+  background: green;
+}
+
+.badge.unsubscribed {
+  background: red;
 }
