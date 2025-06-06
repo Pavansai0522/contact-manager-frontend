@@ -2,18 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
+const API_URL = 'https://contact-manager-backend-ygfd.onrender.com';
+
 export default function App() {
   const [formData, setFormData] = useState(initialForm());
   const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState({ emailStatus: '', contactStatus: '' });
+  const [filter, setFilter] = useState({ emailStatus: '', contactStatus: '', search: '', tags: '' });
   const [editContact, setEditContact] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
-  useEffect(() => {
-    fetchContacts();
-  }, [filter, page]);
 
   function initialForm() {
     return {
@@ -28,11 +26,19 @@ export default function App() {
     };
   }
 
+  useEffect(() => {
+    fetchContacts();
+  }, [filter, page]);
+
   const fetchContacts = async () => {
-    const query = new URLSearchParams({ ...filter, page }).toString();
-    const res = await axios.get(`http://localhost:5000/contacts?${query}`);
-    setContacts(res.data.contacts);
-    setTotalPages(res.data.totalPages);
+    try {
+      const query = new URLSearchParams({ ...filter, page }).toString();
+      const res = await axios.get(`${API_URL}/contacts?${query}`);
+      setContacts(res.data.contacts);
+      setTotalPages(res.data.totalPages);
+    } catch (err) {
+      console.error('Fetch error:', err);
+    }
   };
 
   const handleChange = (e) => {
@@ -41,15 +47,19 @@ export default function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editContact) {
-      await axios.put(`http://localhost:5000/contacts/${editContact._id}`, formData);
-      setEditContact(null);
-    } else {
-      await axios.post('http://localhost:5000/contacts', formData);
+    try {
+      if (editContact) {
+        await axios.put(`${API_URL}/contacts/${editContact._id}`, formData);
+        setEditContact(null);
+      } else {
+        await axios.post(`${API_URL}/contacts`, formData);
+      }
+      setFormData(initialForm());
+      setShowModal(false);
+      fetchContacts();
+    } catch (err) {
+      console.error('Submit error:', err);
     }
-    setFormData(initialForm());
-    setShowModal(false);
-    fetchContacts();
   };
 
   const openEditModal = (contact) => {
@@ -59,8 +69,12 @@ export default function App() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/contacts/${id}`);
-    fetchContacts();
+    try {
+      await axios.delete(`${API_URL}/contacts/${id}`);
+      fetchContacts();
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
   };
 
   const handleFilterChange = (e) => {
@@ -68,12 +82,12 @@ export default function App() {
   };
 
   const resetFilter = () => {
-    setFilter({ emailStatus: '', contactStatus: '' });
+    setFilter({ emailStatus: '', contactStatus: '', search: '', tags: '' });
   };
 
   return (
     <div className="app">
-      <h2>Add a Contact</h2>
+      <h2>{editContact ? 'Edit Contact' : 'Add a Contact'}</h2>
       <form onSubmit={handleSubmit}>
         <input name="firstName" placeholder="First Name" value={formData.firstName} onChange={handleChange} />
         <input name="lastName" placeholder="Last Name" value={formData.lastName} onChange={handleChange} />
@@ -91,9 +105,8 @@ export default function App() {
       </form>
 
       <h3>Search & Filter Contacts</h3>
-      <input placeholder="Search by name or email" onChange={(e) => setFilter({ ...filter, search: e.target.value })} />
-      <input placeholder="Filter by Tags (comma separated)" onChange={(e) => setFilter({ ...filter, tags: e.target.value })} />
-      <input placeholder="Search by name or email" onChange={(e) => setFilter({ ...filter, search: e.target.value })} />
+      <input name="search" placeholder="Search by name or email" value={filter.search} onChange={handleFilterChange} />
+      <input name="tags" placeholder="Filter by Tags (comma separated)" value={filter.tags} onChange={handleFilterChange} />
       <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
         <option value="">All Email Status</option>
         <option value="Subscribed">Subscribed</option>
@@ -113,6 +126,7 @@ export default function App() {
           </li>
         ))}
       </ul>
+
       <div className="pagination">
         <button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1}>Prev</button>
         <span>Page {page} of {totalPages}</span>
