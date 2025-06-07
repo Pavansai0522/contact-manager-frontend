@@ -120,17 +120,17 @@ export default function App() {
 
         {/* Search + Filters + Export */}
         <div className="topbar">
-          <input
+            <input
             type="text"
             className="search-input"
             name="search"
             placeholder="🔍 Search by email or name"
             value={filter.search}
             onChange={handleFilterChange}
-          />
+        />
           <div className="topbar-buttons">
-            <button className="btn-outline" onClick={() => setShowFilters(true)}>Filters</button>
-            <button className="btn-filled">Export</button>
+          <button className="btn-outline icon-btn" onClick={() => setShowFilters(true)}>Filters</button>
+          <button className="btn-outline icon-btn">Export</button>
           </div>
         </div>
 

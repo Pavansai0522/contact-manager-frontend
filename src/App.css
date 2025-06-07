@@ -3,21 +3,41 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 16px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fafafa;
   margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
 
 .search-input {
-  width: 50%;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
+  width: 300px;
+  background-color: white;
 }
 
 .topbar-buttons {
   display: flex;
   gap: 10px;
 }
+
+.btn-outline.icon-btn {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 
 .btn-outline,
 .btn-filled {
