@@ -1,9 +1,16 @@
 /* App.css */
 
-/* Layout */
+.domain-label select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-left: 4px;
+  font-size: 14px;
+  background-color: white;
+}
 .container {
   display: flex;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI'.open-sans, sans-serif;
   color: #222;
   background-color: #f4f6f8;
 }
@@ -61,12 +68,12 @@
 
 .btn-outline {
   background: white;
-  color: green;
-  border: 1px solid green;
+  color: lightgreen;
+  border: 1px solid lightgreen;
 }
 
 .btn-filled {
-  background-color: green;
+  background-color: lightgreen;
   color: white;
   border: none;
 }
