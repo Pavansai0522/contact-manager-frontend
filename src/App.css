@@ -187,6 +187,22 @@ thead {
   background-color: #9ca3af;
 }
 
+.badge.engaged-lead {
+  background-color: #2563eb;
+}
+
+.badge.stale-lead {
+  background-color: #f59e0b;
+}
+
+.badge.new-lead {
+  background-color: #10b981;
+}
+
+.badge.new-sale {
+  background-color: #6366f1;
+}
+
 .pagination {
   margin-top: 1.5rem;
   display: flex;
@@ -195,7 +211,6 @@ thead {
   gap: 1rem;
 }
 
-/* Modal */
 .modal {
   position: fixed;
   top: 0;
@@ -246,7 +261,6 @@ thead {
   margin-top: 4px;
 }
 
-/* Filter Drawer */
 .filter-drawer {
   position: fixed;
   right: 0;
