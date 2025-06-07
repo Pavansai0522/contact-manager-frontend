@@ -118,23 +118,23 @@ export default function App() {
           </div>
         </div>
 
-        {/* Search + Filters + Export */}
+        {/* ✅ Modern Topbar with Search and Buttons */}
         <div className="topbar">
-            <input
+          <input
             type="text"
             className="search-input"
             name="search"
             placeholder="🔍 Search by email or name"
             value={filter.search}
             onChange={handleFilterChange}
-        />
+          />
           <div className="topbar-buttons">
-          <button className="btn-outline icon-btn" onClick={() => setShowFilters(true)}>Filters</button>
-          <button className="btn-outline icon-btn">Export</button>
+            <button className="btn-outline icon-btn" onClick={() => setShowFilters(true)}>Filters</button>
+            <button className="btn-outline icon-btn">Export</button>
           </div>
         </div>
 
-        {/* Table */}
+        {/* ✅ Contact Table */}
         <table>
           <thead>
             <tr>
@@ -170,7 +170,7 @@ export default function App() {
         </div>
       </main>
 
-      {/* Add/Edit Modal */}
+      {/* Modal for Add/Edit */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -195,7 +195,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Filter Panel Drawer */}
+      {/* Filter Drawer */}
       {showFilters && (
         <div className="filter-drawer">
           <div className="filter-header">
