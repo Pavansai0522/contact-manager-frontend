@@ -10,7 +10,7 @@
 }
 .container {
   display: flex;
-  font-family: 'Segoe UI'.open-sans, sans-serif;
+  font-family: 'Segoe UI', open-sans, sans-serif;
   color: #222;
   background-color: #f4f6f8;
 }
