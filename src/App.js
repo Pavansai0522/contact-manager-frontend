@@ -3,15 +3,18 @@ import axios from 'axios';
 import './App.css';
 
 const API_URL = 'https://contact-manager-backend-ygfd.onrender.com';
+const LIMIT = 15;
 
 export default function App() {
   const [formData, setFormData] = useState(initialForm());
   const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState({ emailStatus: '', contactStatus: '', search: '', tags: '' });
+  const [filter, setFilter] = useState({ emailStatus: '', contactStatus: '', search: '' });
   const [editContact, setEditContact] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
 
   function initialForm() {
     return {
@@ -22,7 +25,6 @@ export default function App() {
       list: '',
       phone: '',
       contactStatus: '',
-      tags: ''
     };
   }
 
@@ -32,7 +34,7 @@ export default function App() {
 
   const fetchContacts = async () => {
     try {
-      const query = new URLSearchParams({ ...filter, page }).toString();
+      const query = new URLSearchParams({ ...filter, page, limit: LIMIT }).toString();
       const res = await axios.get(`${API_URL}/contacts?${query}`);
       setContacts(res.data.contacts);
       setTotalPages(res.data.totalPages);
@@ -43,7 +45,7 @@ export default function App() {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleFilterChange = (e) => setFilter({ ...filter, [e.target.name]: e.target.value });
-  const resetFilter = () => setFilter({ emailStatus: '', contactStatus: '', search: '', tags: '' });
+  const resetFilter = () => setFilter({ emailStatus: '', contactStatus: '', search: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,24 +89,54 @@ export default function App() {
       </aside>
 
       <main className="main-content">
-        <div className="header">
-          <h1>Contacts</h1>
+        <div className="header-top">
           <div>
-            <button onClick={() => setShowModal(true)}>Add Contact</button>
+            <h2>Contacts</h2>
+            <div className="domain-label">
+              For:{" "}
+              <select value={selectedDomain} onChange={(e) => setSelectedDomain(e.target.value)}>
+                <option>birdsongcafe.com</option>
+                <option>radiantdigital.com</option>
+              </select>
+            </div>
+          </div>
+          <div className="header-buttons">
+            <button className="btn-outline">Import Contacts</button>
+            <button className="btn-filled" onClick={() => setShowModal(true)}>Add a Contact</button>
           </div>
         </div>
 
-        <div className="filters">
-          <input name="search" placeholder="Search" value={filter.search} onChange={handleFilterChange} />
-          <input name="tags" placeholder="Tags" value={filter.tags} onChange={handleFilterChange} />
-          <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
-            <option value="">All Email Status</option>
-            <option value="Subscribed">Subscribed</option>
-            <option value="Unsubscribed">Unsubscribed</option>
-            <option value="Not Specified">Not Specified</option>
-          </select>
-          <input name="contactStatus" placeholder="Contact Status" value={filter.contactStatus} onChange={handleFilterChange} />
-          <button onClick={resetFilter}>Reset</button>
+        <div className="summary-cards">
+          <div className="card">
+            <p>Total contacts</p>
+            <h3>{contacts.length}</h3>
+            <span className="trend up">+11 past 30 days</span>
+          </div>
+          <div className="card">
+            <p>Subscribed</p>
+            <h3>{contacts.filter(c => c.emailStatus === 'Subscribed').length}</h3>
+            <span className="trend up">+6 past 30 days</span>
+          </div>
+          <div className="card">
+            <p>Not subscribed</p>
+            <h3>{contacts.filter(c => c.emailStatus === 'Unsubscribed').length}</h3>
+            <span className="trend down">-5 past 30 days</span>
+          </div>
+        </div>
+
+        <div className="topbar">
+          <input
+            type="text"
+            className="search-input"
+            name="search"
+            placeholder="🔍 Search by email or name"
+            value={filter.search}
+            onChange={handleFilterChange}
+          />
+          <div className="topbar-buttons">
+            <button className="btn-outline" onClick={() => setShowFilters(true)}>Filters</button>
+            <button className="btn-outline">Export</button>
+          </div>
         </div>
 
         <table>
@@ -114,7 +146,7 @@ export default function App() {
               <th>Email</th>
               <th>Email Status</th>
               <th>Phone</th>
-              <th>Tags</th>
+              <th>Contact Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -125,10 +157,10 @@ export default function App() {
                 <td>{c.email}</td>
                 <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
                 <td>{c.phone}</td>
-                <td>{c.tags}</td>
+                <td><span className={`badge ${c.contactStatus?.toLowerCase().replace(' ', '-')}`}>{c.contactStatus || 'N/A'}</span></td>
                 <td>
-                  <button onClick={() => openEditModal(c)}>Edit</button>
-                  <button onClick={() => handleDelete(c._id)}>Delete</button>
+                  <button className="btn-outline" onClick={() => openEditModal(c)}>Edit</button>
+                  <button className="btn-outline" onClick={() => handleDelete(c._id)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -145,23 +177,47 @@ export default function App() {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h3>{editContact ? 'Edit Contact' : 'Add a Contact'}</h3>
-            <form onSubmit={handleSubmit}>
+            <h3>Add a Contact</h3>
+            <p className="subtext">Add individual contact details</p>
+            <form onSubmit={handleSubmit} className="modal-grid">
               <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
               <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
-              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" />
               <select name="emailStatus" value={formData.emailStatus} onChange={handleChange}>
                 <option>Subscribed</option>
                 <option>Unsubscribed</option>
                 <option>Not Specified</option>
               </select>
-              <input name="list" value={formData.list} onChange={handleChange} placeholder="List" />
+              <input name="list" value={formData.list} onChange={handleChange} placeholder="Add to List(s)" />
               <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
-              <input name="contactStatus" value={formData.contactStatus} onChange={handleChange} placeholder="Status" />
-              <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Tags" />
-              <button type="submit">{editContact ? 'Update' : 'Add'}</button>
-              <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
+              <input name="contactStatus" value={formData.contactStatus} onChange={handleChange} placeholder="Contact Status" />
+              <div className="modal-buttons">
+                <button type="button" className="btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="submit" className="btn-filled">{editContact ? 'Update' : 'Add & Close'}</button>
+              </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showFilters && (
+        <div className="filter-drawer">
+          <div className="filter-header">
+            <h3>Filters</h3>
+            <button className="close-btn" onClick={() => setShowFilters(false)}>✕</button>
+          </div>
+          <div className="filter-body">
+            <select name="emailStatus" value={filter.emailStatus} onChange={handleFilterChange}>
+              <option value="">All Email Status</option>
+              <option value="Subscribed">Subscribed</option>
+              <option value="Unsubscribed">Unsubscribed</option>
+              <option value="Not Specified">Not Specified</option>
+            </select>
+            <input name="contactStatus" placeholder="Contact Status" value={filter.contactStatus} onChange={handleFilterChange} />
+          </div>
+          <div className="filter-footer">
+            <button className="btn-outline" onClick={resetFilter}>Reset</button>
+            <button className="btn-filled" onClick={() => setShowFilters(false)}>Apply</button>
           </div>
         </div>
       )}
