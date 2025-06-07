@@ -17,6 +17,9 @@ export default function App() {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
 
+  const tagOptions = ['VIP', 'Lead', 'Customer', 'Trial'];
+  const listOptions = ['Newsletter', 'Promos', 'Events'];
+
   function initialForm() {
     return {
       firstName: '', lastName: '', email: '', emailStatus: 'Subscribed',
@@ -141,23 +144,32 @@ export default function App() {
 
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-content form-modern">
             <h3>{editContact ? 'Edit Contact' : 'Add a Contact'}</h3>
-            <form onSubmit={handleSubmit}>
+            <p className="subtext">Add individual contact details</p>
+            <form onSubmit={handleSubmit} className="modal-grid">
               <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
               <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
-              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address *" />
               <select name="emailStatus" value={formData.emailStatus} onChange={handleChange}>
                 <option>Subscribed</option>
                 <option>Unsubscribed</option>
                 <option>Not Specified</option>
               </select>
-              <input name="list" value={formData.list} onChange={handleChange} placeholder="List" />
+              <select name="list" value={formData.list} onChange={handleChange}>
+                <option value="">Select a list</option>
+                {listOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
               <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
-              <input name="contactStatus" value={formData.contactStatus} onChange={handleChange} placeholder="Status" />
-              <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Tags" />
-              <button type="submit">{editContact ? 'Update' : 'Add'}</button>
-              <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
+              <input name="contactStatus" value={formData.contactStatus} onChange={handleChange} placeholder="Contact Status" />
+              <select name="tags" value={formData.tags} onChange={handleChange}>
+                <option value="">Select a tag</option>
+                {tagOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+              </select>
+              <div className="modal-buttons">
+                <button type="button" className="btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="submit" className="btn-filled">{editContact ? 'Update' : 'Add & Close'}</button>
+              </div>
             </form>
           </div>
         </div>
