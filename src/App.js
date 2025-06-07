@@ -15,6 +15,7 @@ export default function App() {
   const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
 
   function initialForm() {
     return {
@@ -77,7 +78,18 @@ export default function App() {
         <div className="header-top">
           <div>
             <h2>Contacts</h2>
-            <p className="domain-label">For: <span>birdsongcafe.com</span></p>
+            <div className="domain-label">
+              <label htmlFor="domain-select">For: </label>
+              <select
+                id="domain-select"
+                value={selectedDomain}
+                onChange={(e) => setSelectedDomain(e.target.value)}
+              >
+                <option value="birdsongcafe.com">birdsongcafe.com</option>
+                <option value="sunnybakery.com">sunnybakery.com</option>
+                <option value="coffeelovers.com">coffeelovers.com</option>
+              </select>
+            </div>
           </div>
           <div className="header-buttons">
             <button className="btn-outline">Import Contacts</button>
