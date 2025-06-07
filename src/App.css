@@ -1,26 +1,24 @@
 /* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-.domain-label select {
-  padding: 4px 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-left: 4px;
-  font-size: 14px;
-  background-color: white;
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9fafb;
+  color: #333;
 }
+
 .container {
   display: flex;
-  font-family: 'Segoe UI', open-sans, sans-serif;
-  color: #222;
-  background-color: #f4f6f8;
+  font-family: 'Inter', sans-serif;
 }
 
 .sidebar {
   width: 220px;
-  background: #ffffff;
+  background: #f5f5f5;
   padding: 1rem;
   border-right: 1px solid #ddd;
-  height: 100vh;
 }
 
 .sidebar h2 {
@@ -31,15 +29,13 @@
 
 .sidebar .active {
   font-weight: bold;
-  color: #007bff;
 }
 
 .main-content {
   flex: 1;
-  padding: 2rem;
+  padding: 1rem;
 }
 
-/* Header */
 .header-top {
   display: flex;
   justify-content: space-between;
@@ -47,38 +43,57 @@
   margin-bottom: 20px;
 }
 
-.header-top h2 {
-  font-size: 24px;
-  margin-bottom: 4px;
-}
-
 .domain-label {
   font-size: 14px;
-  color: #888;
+  color: #666;
   margin-top: 4px;
+}
+
+.domain-label select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-left: 4px;
+  font-size: 14px;
+  background-color: white;
 }
 
 .header-buttons button {
   margin-left: 10px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: 500;
+}
+
+button,
+.btn-filled,
+.btn-outline {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 20px;
+  border-radius: 20px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-outline {
   background: white;
-  color: lightgreen;
-  border: 1px solid lightgreen;
+  color: #A1CE74;
+  border: 2px solid #A1CE74;
+}
+
+.btn-outline:hover {
+  background-color: #F0F8EC;
 }
 
 .btn-filled {
-  background-color: lightgreen;
+  background-color: #A1CE74;
   color: white;
   border: none;
 }
 
-/* Summary Cards */
+.btn-filled:hover {
+  background-color: #8DBA60;
+}
+
 .summary-cards {
   display: flex;
   gap: 20px;
@@ -86,22 +101,22 @@
 }
 
 .card {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  text-align: center;
+  background: #f9f9f9;
+  padding: 16px;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .card p {
   font-size: 14px;
-  color: #666;
+  color: #555;
 }
 
 .card h3 {
-  font-size: 24px;
+  font-size: 22px;
   margin: 8px 0;
+  font-weight: 600;
 }
 
 .trend {
@@ -116,26 +131,19 @@
   color: red;
 }
 
-/* Topbar: Search + Buttons */
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 16px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  border: 1px solid #e1e1e1;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  margin: 20px 0;
 }
 
 .search-input {
-  padding: 10px 14px;
+  width: 50%;
+  padding: 8px 12px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 14px;
-  width: 300px;
-  background-color: white;
 }
 
 .topbar-buttons {
@@ -143,115 +151,71 @@
   gap: 10px;
 }
 
-.icon-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 500;
-  font-size: 14px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: white;
-  cursor: pointer;
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
 }
 
-/* Table Styling */
 table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 8px;
-  margin-top: 10px;
+  border-collapse: collapse;
+  margin-top: 1rem;
 }
 
-th {
+th, td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
   text-align: left;
-  padding: 12px;
-  font-weight: 600;
   font-size: 14px;
-  color: #444;
-}
-
-td {
-  background: #fff;
-  padding: 12px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-
-tr:hover td {
-  background: #f5f5f5;
 }
 
 .badge {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
   color: white;
-  font-weight: 500;
+  font-size: 0.8rem;
 }
 
 .badge.subscribed {
-  background-color: #22c55e;
+  background-color: green;
 }
 
 .badge.unsubscribed {
-  background-color: #ef4444;
+  background-color: red;
 }
 
 .badge.not-specified {
-  background-color: #9ca3af;
+  background-color: gray;
 }
 
-.small-btn {
-  padding: 6px 10px;
-  font-size: 13px;
-  margin-right: 6px;
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-/* Modal */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
   background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 500px;
-  max-width: 90%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 1rem;
+  border-radius: 5px;
+  width: 400px;
 }
 
-.modal-content input,
-.modal-content select {
-  width: 100%;
-  margin: 8px 0;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-/* Pagination */
-.pagination {
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 14px;
-}
-
-/* Filter Drawer */
 .filter-drawer {
   position: fixed;
   right: 0;
@@ -300,4 +264,10 @@ tr:hover td {
   border: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+.small-btn {
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 12px;
 }
