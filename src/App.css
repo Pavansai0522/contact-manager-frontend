@@ -1,4 +1,4 @@
-/* App.css */
+/* General Layout */
 body {
   font-family: 'Inter', 'Segoe UI', sans-serif;
   background-color: #f9fafb;
@@ -29,12 +29,14 @@ body {
   font-weight: bold;
 }
 
+/* Main content */
 .main-content {
   flex: 1;
   padding: 2rem;
   background-color: #f9fafb;
 }
 
+/* Header */
 .header-top {
   display: flex;
   justify-content: space-between;
@@ -48,6 +50,7 @@ body {
   margin-top: 4px;
 }
 
+/* Dropdown */
 select {
   padding: 10px;
   border: 1px solid #d1d5db;
@@ -56,16 +59,14 @@ select {
   background: white;
 }
 
-.header-buttons button {
-  margin-left: 10px;
-}
-
+/* Buttons */
 .btn-outline,
 .btn-filled {
   padding: 10px 18px;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .btn-outline {
@@ -85,6 +86,7 @@ select {
   opacity: 0.9;
 }
 
+/* Cards */
 .summary-cards {
   display: flex;
   gap: 20px;
@@ -95,7 +97,7 @@ select {
   background: white;
   padding: 16px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   min-width: 180px;
 }
 
@@ -119,6 +121,7 @@ select {
   font-size: 12px;
 }
 
+/* Topbar */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -140,13 +143,7 @@ select {
   gap: 10px;
 }
 
-.table {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  font-size: 14px;
-}
-
+/* Table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -156,20 +153,22 @@ table {
   overflow: hidden;
 }
 
-th, td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: left;
-}
-
 thead {
   background-color: #f3f4f6;
   font-weight: 600;
 }
 
+th, td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Badges */
 .badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
   color: white;
   font-size: 12px;
   font-weight: 500;
@@ -187,6 +186,10 @@ thead {
   background-color: #9ca3af;
 }
 
+.badge.new-lead {
+  background-color: #10b981;
+}
+
 .badge.engaged-lead {
   background-color: #2563eb;
 }
@@ -195,14 +198,11 @@ thead {
   background-color: #f59e0b;
 }
 
-.badge.new-lead {
-  background-color: #10b981;
-}
-
 .badge.new-sale {
   background-color: #6366f1;
 }
 
+/* Pagination */
 .pagination {
   margin-top: 1.5rem;
   display: flex;
@@ -211,6 +211,7 @@ thead {
   gap: 1rem;
 }
 
+/* Modal */
 .modal {
   position: fixed;
   top: 0;
@@ -261,6 +262,7 @@ thead {
   margin-top: 4px;
 }
 
+/* Filter Drawer */
 .filter-drawer {
   position: fixed;
   right: 0;
