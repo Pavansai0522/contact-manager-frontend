@@ -1,3 +1,5 @@
+/* App.css */
+
 /* Layout */
 .container {
   display: flex;
@@ -193,6 +195,12 @@ tr:hover td {
 
 .badge.not-specified {
   background-color: #9ca3af;
+}
+
+.small-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  margin-right: 6px;
 }
 
 /* Modal */
