@@ -15,7 +15,6 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
-  const [activeTab, setActiveTab] = useState('contacts');
 
   function initialForm() {
     return {
@@ -80,13 +79,17 @@ export default function App() {
     }
   };
 
+  const showOnlySubscribers = () => {
+    setFilter({ emailStatus: 'Subscribed', contactStatus: '', search: '' });
+    setPage(1);
+  };
+
   return (
     <div className="container">
       <aside className="sidebar">
         <h2>Customers</h2>
         <ul>
-          <li className={activeTab === 'contacts' ? 'active' : ''} onClick={() => setActiveTab('contacts')}>Contacts</li>
-          <li className={activeTab === 'subscribers' ? 'active' : ''} onClick={() => setActiveTab('subscribers')}>Subscribers</li>
+          <li className="active">Contacts</li>
         </ul>
       </aside>
 
@@ -137,6 +140,7 @@ export default function App() {
           />
           <div className="topbar-buttons">
             <button className="btn-outline" onClick={() => setShowFilters(true)}>Filters</button>
+            <button className="btn-outline" onClick={showOnlySubscribers}>Show Subscribers</button>
             <button className="btn-outline">Export</button>
           </div>
         </div>
@@ -153,25 +157,23 @@ export default function App() {
             </tr>
           </thead>
           <tbody>
-            {contacts
-              .filter(c => activeTab === 'subscribers' ? c.emailStatus === 'Subscribed' : true)
-              .map((c) => (
-                <tr key={c._id}>
-                  <td>{c.firstName} {c.lastName}</td>
-                  <td>{c.email}</td>
-                  <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
-                  <td>{c.phone}</td>
-                  <td>
-                    <span className={`badge ${c.contactStatus ? c.contactStatus.toLowerCase().replace(/\s+/g, '-') : 'n-a'}`}>
-                      {c.contactStatus || 'N/A'}
-                    </span>
-                  </td>
-                  <td>
-                    <button className="btn-outline" onClick={() => openEditModal(c)}>Edit</button>
-                    <button className="btn-outline" onClick={() => handleDelete(c._id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
+            {contacts.map((c) => (
+              <tr key={c._id}>
+                <td>{c.firstName} {c.lastName}</td>
+                <td>{c.email}</td>
+                <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
+                <td>{c.phone}</td>
+                <td>
+                  <span className={`badge ${c.contactStatus ? c.contactStatus.toLowerCase().replace(/\s+/g, '-') : 'n-a'}`}>
+                    {c.contactStatus || 'N/A'}
+                  </span>
+                </td>
+                <td>
+                  <button className="btn-outline" onClick={() => openEditModal(c)}>Edit</button>
+                  <button className="btn-outline" onClick={() => handleDelete(c._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
 
