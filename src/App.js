@@ -93,7 +93,7 @@ export default function App() {
           <div>
             <h2>Contacts</h2>
             <div className="domain-label">
-              For:{" "}
+              For:{' '}
               <select value={selectedDomain} onChange={(e) => setSelectedDomain(e.target.value)}>
                 <option>birdsongcafe.com</option>
                 <option>radiantdigital.com</option>
