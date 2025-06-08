@@ -157,7 +157,11 @@ export default function App() {
                 <td>{c.email}</td>
                 <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
                 <td>{c.phone}</td>
-                <td><span className={`badge ${c.contactStatus?.toLowerCase().replace(' ', '-')}`}>{c.contactStatus || 'N/A'}</span></td>
+                <td>
+                  <span className={`badge ${c.contactStatus ? c.contactStatus.toLowerCase().replace(/\s+/g, '-') : 'n-a'}`}>
+                    {c.contactStatus || 'N/A'}
+                  </span>
+                </td>
                 <td>
                   <button className="btn-outline" onClick={() => openEditModal(c)}>Edit</button>
                   <button className="btn-outline" onClick={() => handleDelete(c._id)}>Delete</button>
@@ -177,7 +181,7 @@ export default function App() {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h3>Add a Contact</h3>
+            <h3>{editContact ? 'Edit Contact' : 'Add a Contact'}</h3>
             <p className="subtext">Add individual contact details</p>
             <form onSubmit={handleSubmit} className="modal-grid">
               <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
