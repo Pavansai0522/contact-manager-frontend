@@ -302,40 +302,50 @@ table input[type='checkbox'] {
 .sidebar {
   padding-top: 2rem;
 }
-.stat-card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 16px;
-  min-width: 180px;
-  flex: 1;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
 }
 
-.stat-title {
+.stat-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 240px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-label {
   font-size: 14px;
   color: #6b7280;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
-.stat-value {
-  font-size: 24px;
-  font-weight: bold;
+.stat-number {
+  font-size: 28px;
+  font-weight: 700;
   color: #111827;
 }
 
-.stat-trend {
-  font-size: 12px;
-  margin-top: 4px;
+.stat-change {
+  font-size: 13px;
+  margin-top: 6px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
-.stat-trend.green {
-  color: #10b981;
+.stat-change.green {
+  color: #10b981; /* Tailwind green-500 */
 }
 
-.stat-trend.red {
-  color: #ef4444;
+.stat-change.red {
+  color: #ef4444; /* Tailwind red-500 */
 }
+

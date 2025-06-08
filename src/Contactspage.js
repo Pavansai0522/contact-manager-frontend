@@ -105,11 +105,24 @@ export default function ContactsPage() {
           </div>
         </div>
 
-        <div className="stats">
-          <div className="stat-card">Total: {stats.total}</div>
-          <div className="stat-card">Subscribed: {stats.subscribed}</div>
-          <div className="stat-card">Unsubscribed: {stats.unsubscribed}</div>
+                <div className="stats">
+          <div className="stat-card">
+            <div className="stat-label">Total contacts</div>
+            <div className="stat-number">{stats.total}</div>
+            <div className="stat-change green">↑ +11 past 30 days</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Subscribed</div>
+            <div className="stat-number">{stats.subscribed}</div>
+            <div className="stat-change green">↑ +6 past 30 days</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Not subscribed</div>
+            <div className="stat-number">{stats.unsubscribed}</div>
+            <div className="stat-change red">↓ +5 past 30 days</div>
+          </div>
         </div>
+
 
         <div className="filter-row">
           <input
