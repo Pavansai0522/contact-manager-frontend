@@ -8,10 +8,8 @@ const LIMIT = 15;
 export default function App() {
   const [formData, setFormData] = useState(initialForm());
   const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState({ emailStatus: '', contactStatus: '', search: '' });
   const [editContact, setEditContact] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
@@ -30,11 +28,11 @@ export default function App() {
 
   useEffect(() => {
     fetchContacts();
-  }, [filter, page]);
+  }, [page]);
 
   const fetchContacts = async () => {
     try {
-      const query = new URLSearchParams({ ...filter, page, limit: LIMIT }).toString();
+      const query = new URLSearchParams({ page, limit: LIMIT }).toString();
       const res = await axios.get(`${API_URL}/contacts?${query}`);
       setContacts(res.data.contacts);
       setTotalPages(res.data.totalPages);
@@ -44,8 +42,6 @@ export default function App() {
   };
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const handleFilterChange = (e) => setFilter({ ...filter, [e.target.name]: e.target.value });
-  const resetFilter = () => setFilter({ emailStatus: '', contactStatus: '', search: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,18 +75,12 @@ export default function App() {
     }
   };
 
-  const showOnlySubscribers = () => {
-    setFilter({ emailStatus: 'Subscribed', contactStatus: '', search: '' });
-    setPage(1);
-  };
-
   return (
     <div className="container">
       <aside className="sidebar">
         <h2>Customers</h2>
         <ul>
           <li className="active">Contacts</li>
-          <li className="inactive-link" onClick={showOnlySubscribers}>Subscribers</li>
         </ul>
       </aside>
 
@@ -112,39 +102,6 @@ export default function App() {
           </div>
         </div>
 
-        <div className="summary-cards">
-          <div className="card">
-            <p>Total contacts</p>
-            <h3>{contacts.length}</h3>
-            <span className="trend up">+11 past 30 days</span>
-          </div>
-          <div className="card">
-            <p>Subscribed</p>
-            <h3>{contacts.filter(c => c.emailStatus === 'Subscribed').length}</h3>
-            <span className="trend up">+6 past 30 days</span>
-          </div>
-          <div className="card">
-            <p>Not subscribed</p>
-            <h3>{contacts.filter(c => c.emailStatus === 'Unsubscribed').length}</h3>
-            <span className="trend down">-5 past 30 days</span>
-          </div>
-        </div>
-
-        <div className="topbar">
-          <input
-            type="text"
-            className="search-input"
-            name="search"
-            placeholder="🔍 Search by email or name"
-            value={filter.search}
-            onChange={handleFilterChange}
-          />
-          <div className="topbar-buttons">
-            <button className="btn-outline" onClick={() => setShowFilters(true)}>Filters</button>
-            <button className="btn-outline">Export</button>
-          </div>
-        </div>
-
         <table>
           <thead>
             <tr>
@@ -161,7 +118,11 @@ export default function App() {
               <tr key={c._id}>
                 <td>{c.firstName} {c.lastName}</td>
                 <td>{c.email}</td>
-                <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
+                <td>
+                  <span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>
+                    {c.emailStatus}
+                  </span>
+                </td>
                 <td>{c.phone}</td>
                 <td>
                   <span className={`badge ${c.contactStatus ? c.contactStatus.toLowerCase().replace(/\s+/g, '-') : 'n-a'}`}>
