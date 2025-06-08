@@ -167,11 +167,12 @@ th, td {
 
 /* Badges */
 .badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
+  display: inline-block;
+  color: white;
 }
 
 .badge.subscribed {
@@ -186,12 +187,21 @@ th, td {
   background-color: #9ca3af;
 }
 
+/* Contact Status Badges */
+.badge.active {
+  background-color: #3b82f6;
+}
+
+.badge.inactive {
+  background-color: #9ca3af;
+}
+
 .badge.new-lead {
   background-color: #10b981;
 }
 
 .badge.engaged-lead {
-  background-color: #2563eb;
+  background-color: #6366f1;
 }
 
 .badge.stale-lead {
@@ -199,8 +209,13 @@ th, td {
 }
 
 .badge.new-sale {
-  background-color: #6366f1;
+  background-color: #4b5563;
 }
+
+.badge.n-a {
+  background-color: #6b7280;
+}
+
 
 /* Pagination */
 .pagination {
