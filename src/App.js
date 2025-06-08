@@ -56,9 +56,9 @@ export default function App() {
       } else {
         await axios.post(`${API_URL}/contacts`, formData);
       }
+      setPage(1); // ✅ Reset to first page to refresh properly
       setFormData(initialForm());
       setShowModal(false);
-      fetchContacts();
     } catch (err) {
       console.error('Submit error:', err);
     }
@@ -73,7 +73,7 @@ export default function App() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/contacts/${id}`);
-      fetchContacts();
+      setPage(1); // ✅ Force page reset after delete too
     } catch (err) {
       console.error('Delete error:', err);
     }
@@ -93,7 +93,7 @@ export default function App() {
           <div>
             <h2>Contacts</h2>
             <div className="domain-label">
-              For:{' '}
+              For:{" "}
               <select value={selectedDomain} onChange={(e) => setSelectedDomain(e.target.value)}>
                 <option>birdsongcafe.com</option>
                 <option>radiantdigital.com</option>
