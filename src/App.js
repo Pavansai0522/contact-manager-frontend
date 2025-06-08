@@ -15,6 +15,7 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
+  const [activeTab, setActiveTab] = useState('contacts');
 
   function initialForm() {
     return {
@@ -56,9 +57,9 @@ export default function App() {
       } else {
         await axios.post(`${API_URL}/contacts`, formData);
       }
-      setPage(1); // ✅ Reset to first page to refresh properly
       setFormData(initialForm());
       setShowModal(false);
+      fetchContacts();
     } catch (err) {
       console.error('Submit error:', err);
     }
@@ -73,7 +74,7 @@ export default function App() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/contacts/${id}`);
-      setPage(1); // ✅ Force page reset after delete too
+      fetchContacts();
     } catch (err) {
       console.error('Delete error:', err);
     }
@@ -84,7 +85,8 @@ export default function App() {
       <aside className="sidebar">
         <h2>Customers</h2>
         <ul>
-          <li className="active">Contacts</li>
+          <li className={activeTab === 'contacts' ? 'active' : ''} onClick={() => setActiveTab('contacts')}>Contacts</li>
+          <li className={activeTab === 'subscribers' ? 'active' : ''} onClick={() => setActiveTab('subscribers')}>Subscribers</li>
         </ul>
       </aside>
 
@@ -151,23 +153,25 @@ export default function App() {
             </tr>
           </thead>
           <tbody>
-            {contacts.map((c) => (
-              <tr key={c._id}>
-                <td>{c.firstName} {c.lastName}</td>
-                <td>{c.email}</td>
-                <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
-                <td>{c.phone}</td>
-                <td>
-                  <span className={`badge ${c.contactStatus ? c.contactStatus.toLowerCase().replace(/\s+/g, '-') : 'n-a'}`}>
-                    {c.contactStatus || 'N/A'}
-                  </span>
-                </td>
-                <td>
-                  <button className="btn-outline" onClick={() => openEditModal(c)}>Edit</button>
-                  <button className="btn-outline" onClick={() => handleDelete(c._id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
+            {contacts
+              .filter(c => activeTab === 'subscribers' ? c.emailStatus === 'Subscribed' : true)
+              .map((c) => (
+                <tr key={c._id}>
+                  <td>{c.firstName} {c.lastName}</td>
+                  <td>{c.email}</td>
+                  <td><span className={`badge ${c.emailStatus.toLowerCase().replace(' ', '-')}`}>{c.emailStatus}</span></td>
+                  <td>{c.phone}</td>
+                  <td>
+                    <span className={`badge ${c.contactStatus ? c.contactStatus.toLowerCase().replace(/\s+/g, '-') : 'n-a'}`}>
+                      {c.contactStatus || 'N/A'}
+                    </span>
+                  </td>
+                  <td>
+                    <button className="btn-outline" onClick={() => openEditModal(c)}>Edit</button>
+                    <button className="btn-outline" onClick={() => handleDelete(c._id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
 
