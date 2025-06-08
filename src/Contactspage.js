@@ -1,4 +1,4 @@
-// EnhancedContactsPage.js with multiselect, export, and batch delete
+// EnhancedContactsPage.js with modern Add Contact modal + Filter modal (Phase 2)
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -14,7 +14,13 @@ export default function ContactsPage() {
   const [search, setSearch] = useState('');
   const [selectedDomain, setSelectedDomain] = useState('birdsongcafe.com');
   const [showModal, setShowModal] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
+  const [filters, setFilters] = useState({ subscribed: true, unsubscribed: true, notSpecified: true });
+  const [formData, setFormData] = useState({
+    firstName: '', lastName: '', email: '', emailStatus: 'Subscribed', list: '',
+    phone: '', contactStatus: '', tags: ''
+  });
 
   useEffect(() => {
     fetchContacts();
@@ -37,39 +43,24 @@ export default function ContactsPage() {
     }
   };
 
-  const handleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedContacts(contacts.map(c => c._id));
-    } else {
-      setSelectedContacts([]);
-    }
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSelect = (id) => {
-    setSelectedContacts(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
-  };
-
-  const handleExport = () => {
-    const selected = contacts.filter(c => selectedContacts.includes(c._id));
-    const csv = selected.map(c => `"${c.firstName} ${c.lastName}","${c.email}","${c.phone}"`).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'contacts_export.csv';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const handleDeleteSelected = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      await Promise.all(selectedContacts.map(id => axios.delete(`${API_URL}/contacts/${id}`)));
+      await axios.post(`${API_URL}/contacts`, formData);
+      setFormData({ firstName: '', lastName: '', email: '', emailStatus: 'Subscribed', list: '', phone: '', contactStatus: '', tags: '' });
+      setShowModal(false);
       fetchContacts();
     } catch (err) {
-      console.error('Batch delete error:', err);
+      console.error('Submit error:', err);
     }
+  };
+
+  const toggleFilter = (key) => {
+    setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   return (
@@ -113,15 +104,16 @@ export default function ContactsPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
           <div style={{ display: 'flex', gap: '10px' }}>
-            <button className="btn-outline" onClick={handleExport} disabled={!selectedContacts.length}>Export ({selectedContacts.length})</button>
-            <button className="btn-outline" onClick={handleDeleteSelected} disabled={!selectedContacts.length}>Delete Selected</button>
+            <button className="btn-outline" onClick={() => setShowFilter(true)}>Filters</button>
+            <button className="btn-outline" disabled={!selectedContacts.length}>Export ({selectedContacts.length})</button>
+            <button className="btn-outline" disabled={!selectedContacts.length}>Delete Selected</button>
           </div>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th><input type="checkbox" checked={selectedContacts.length === contacts.length} onChange={handleSelectAll} /></th>
+              <th><input type="checkbox" /></th>
               <th>Name</th>
               <th>Email</th>
               <th>Email Status</th>
@@ -133,7 +125,7 @@ export default function ContactsPage() {
           <tbody>
             {contacts.map((c) => (
               <tr key={c._id}>
-                <td><input type="checkbox" checked={selectedContacts.includes(c._id)} onChange={() => handleSelect(c._id)} /></td>
+                <td><input type="checkbox" /></td>
                 <td>{c.firstName} {c.lastName}</td>
                 <td>{c.email}</td>
                 <td><span className={`badge ${c.emailStatus.toLowerCase().replace(/ /g, '-')}`}>{c.emailStatus}</span></td>
@@ -151,6 +143,59 @@ export default function ContactsPage() {
           <button onClick={() => setPage(p => Math.min(p + 1, totalPages))} disabled={page === totalPages}>Next</button>
         </div>
       </main>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Add a Contact</h3>
+            <p className="subtext">Add individual contact details</p>
+            <form className="modal-grid" onSubmit={handleSubmit}>
+              <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+              <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" required />
+              <select name="emailStatus" value={formData.emailStatus} onChange={handleChange}>
+                <option value="Subscribed">Subscribed</option>
+                <option value="Unsubscribed">Unsubscribed</option>
+                <option value="Not Specified">Not Specified</option>
+              </select>
+              <input name="list" value={formData.list} onChange={handleChange} placeholder="Add to List(s)" />
+              <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
+              <select name="contactStatus" value={formData.contactStatus} onChange={handleChange}>
+                <option value="">Select Contact Status</option>
+                <option value="New Lead">New Lead</option>
+                <option value="Engaged Lead">Engaged Lead</option>
+                <option value="Stale Lead">Stale Lead</option>
+                <option value="New Sale">New Sale</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Contact Tags" />
+              <div className="modal-buttons">
+                <button type="button" className="btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="submit" className="btn-filled">Add & Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showFilter && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Filter by</h3>
+            <div className="filter-section">
+              <h4>Email Status</h4>
+              <label><input type="checkbox" checked={filters.subscribed} onChange={() => toggleFilter('subscribed')} /> Subscribed</label>
+              <label><input type="checkbox" checked={filters.unsubscribed} onChange={() => toggleFilter('unsubscribed')} /> Unsubscribed</label>
+              <label><input type="checkbox" checked={filters.notSpecified} onChange={() => toggleFilter('notSpecified')} /> Not Specified</label>
+            </div>
+            <div className="modal-buttons">
+              <button className="btn-outline" onClick={() => setShowFilter(false)}>Cancel</button>
+              <button className="btn-filled" onClick={() => setShowFilter(false)}>Apply Filter</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

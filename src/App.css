@@ -181,3 +181,124 @@ select {
   font-size: 14px;
   margin-top: 4px;
 }
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.modal-grid input,
+.modal-grid select {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  grid-column: span 2;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.subtext {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.filter-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filter-section h4 {
+  margin-bottom: 8px;
+}
+.filter-section label {
+  font-size: 14px;
+  color: #374151;
+}
+/* Better spacing for stat cards */
+.stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Align filter/search/export row */
+.filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.filter-row input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Buttons in filter row */
+.filter-row > div {
+  display: flex;
+  gap: 10px;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: white;
+}
+thead {
+  background-color: #f3f4f6;
+}
+thead th {
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+  color: #374151;
+}
+tbody td {
+  padding: 12px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+/* Checkbox alignment */
+table input[type='checkbox'] {
+  transform: scale(1.1);
+}
+
+/* Pagination buttons */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* Ensure sidebar spacing remains tight */
+.sidebar {
+  padding-top: 2rem;
+}
