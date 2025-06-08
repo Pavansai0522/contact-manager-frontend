@@ -1,4 +1,4 @@
-// EnhancedContactsPage.js with modern Add Contact modal + Filter modal (Phase 2)
+// EnhancedContactsPage.js with working Delete Selected and date fix
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -63,6 +63,21 @@ export default function ContactsPage() {
     setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const handleSelect = (id) => {
+    setSelectedContacts(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  };
+
+  const handleDeleteSelected = async () => {
+    try {
+      await Promise.all(selectedContacts.map(id => axios.delete(`${API_URL}/contacts/${id}`)));
+      fetchContacts();
+    } catch (err) {
+      console.error('Batch delete error:', err);
+    }
+  };
+
   return (
     <div className="container">
       <aside className="sidebar">
@@ -91,23 +106,10 @@ export default function ContactsPage() {
         </div>
 
         <div className="stats">
-          <div className="stat-card">
-            <div className="stat-title">Total contacts</div>
-            <div className="stat-value">{stats.total}</div>
-            <div className="stat-trend green">↑ +11 past 30 days</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-title">Subscribed</div>
-            <div className="stat-value">{stats.subscribed}</div>
-            <div className="stat-trend green">↑ +6 past 30 days</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-title">Not subscribed</div>
-            <div className="stat-value">{stats.unsubscribed}</div>
-            <div className="stat-trend red">↓ +5 past 30 days</div>
-          </div>
+          <div className="stat-card">Total: {stats.total}</div>
+          <div className="stat-card">Subscribed: {stats.subscribed}</div>
+          <div className="stat-card">Unsubscribed: {stats.unsubscribed}</div>
         </div>
-
 
         <div className="filter-row">
           <input
@@ -119,14 +121,14 @@ export default function ContactsPage() {
           <div style={{ display: 'flex', gap: '10px' }}>
             <button className="btn-outline" onClick={() => setShowFilter(true)}>Filters</button>
             <button className="btn-outline" disabled={!selectedContacts.length}>Export ({selectedContacts.length})</button>
-            <button className="btn-outline" disabled={!selectedContacts.length}>Delete Selected</button>
+            <button className="btn-outline" onClick={handleDeleteSelected} disabled={!selectedContacts.length}>Delete Selected</button>
           </div>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th><input type="checkbox" /></th>
+              <th></th>
               <th>Name</th>
               <th>Email</th>
               <th>Email Status</th>
@@ -138,13 +140,13 @@ export default function ContactsPage() {
           <tbody>
             {contacts.map((c) => (
               <tr key={c._id}>
-                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" checked={selectedContacts.includes(c._id)} onChange={() => handleSelect(c._id)} /></td>
                 <td>{c.firstName} {c.lastName}</td>
                 <td>{c.email}</td>
                 <td><span className={`badge ${c.emailStatus.toLowerCase().replace(/ /g, '-')}`}>{c.emailStatus}</span></td>
                 <td>{c.phone}</td>
                 <td><span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>{c.contactStatus || 'N/A'}</span></td>
-                <td>{new Date(c.updatedAt).toLocaleDateString()}</td>
+                <td>{c.updatedAt && !isNaN(Date.parse(c.updatedAt)) ? new Date(c.updatedAt).toLocaleDateString() : '—'}</td>
               </tr>
             ))}
           </tbody>
