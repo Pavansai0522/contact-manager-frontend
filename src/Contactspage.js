@@ -36,7 +36,7 @@ export default function ContactsPage() {
 
       setContacts(contacts);
       setTotalPages(res.data.totalPages);
-      setStats({ total: contacts.length, subscribed, unsubscribed });
+      setStats({ total: res.data.totalContacts, subscribed, unsubscribed });
       setSelectedContacts([]);
     } catch (err) {
       console.error('Error fetching contacts:', err);
