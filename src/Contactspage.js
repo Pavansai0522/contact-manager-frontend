@@ -27,27 +27,27 @@ export default function ContactsPage() {
   }, [page, search]);
 
   const fetchContacts = async () => {
-    try {
-      const query = new URLSearchParams({ page, limit: LIMIT, search }).toString();
-      const res = await axios.get(`${API_URL}/contacts?${query}`);
-      const contacts = res.data.contacts;
-      const subscribed = contacts.filter(c => c.emailStatus === 'Subscribed').length;
-      const unsubscribed = contacts.filter(c => c.emailStatus === 'Unsubscribed').length;
+  try {
+    const query = new URLSearchParams({ page, limit: LIMIT, search }).toString();
+    const res = await axios.get(`${API_URL}/contacts?${query}`);
+    const contacts = res.data.contacts;
 
-      setContacts(contacts);
-      setTotalPages(res.data.totalPages);
-      setStats({
-        total: res.data.totalContacts, // ✅ use this instead of contacts.length
-        subscribed,
+    const subscribed = contacts.filter(c => c.emailStatus === 'Subscribed').length;
+    const unsubscribed = contacts.filter(c => c.emailStatus === 'Unsubscribed').length;
+
+    setContacts(contacts);
+    setTotalPages(res.data.totalPages);
+    setStats({
+      total: res.data.totalContacts, // ✅ Using server response
+      subscribed,
       unsubscribed
-      });
-      // Reset selected contacts when fetching new data
+    });
+    setSelectedContacts([]);
+  } catch (err) {
+    console.error('Error fetching contacts:', err);
+  }
+};
 
-      setSelectedContacts([]);
-    } catch (err) {
-      console.error('Error fetching contacts:', err);
-    }
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
