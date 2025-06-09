@@ -120,27 +120,40 @@ export default function ContactsPage() {
           </div>
         </div>
 
-        <div className="stats">
-           <div className="stats-cards">
-             <div className="tile">
-             <div className="tile-title">Total contacts</div>
-             <div className="tile-value">{stats.total}</div>
-             <div className="tile-trend up">📈 +6 past 30 days</div>
+        <div className="stats-cards">
+          <div className="tile">
+           <div className="tile-title">Total contacts</div>
+            <div className="tile-value">{stats.total}</div>
+            <div className="tile-trend up">
+              <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
+              <span>+11 past 30 days</span>
+            </div>
             </div>
 
-            <div className="tile">
-             <div className="tile-title">Subscribed</div>
-              <div className="tile-value">{stats.subscribed}</div>
-              <div className="tile-trend up">📈 +6 past 30 days</div>
+           <div className="tile">
+            <div className="tile-title">Subscribed</div>
+            <div className="tile-value">{stats.subscribed}</div>
+            <div className="tile-trend up">
+              <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
+              <span>+6 past 30 days</span>
+            </div>
            </div>
 
-            <div className="tile">
-             <div className="tile-title">Not subscribed</div>
-             <div className="tile-value">{stats.unsubscribed}</div>
-             <div className="tile-trend down">📉 +5 past 30 days</div>
+           <div className="tile">
+            <div className="tile-title">Not subscribed</div>
+            <div className="tile-value">{stats.unsubscribed}</div>
+            <div className="tile-trend down">
+              <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m14 0H5" />
+              </svg>
+              <span>+5 past 30 days</span>
             </div>
           </div>
-        </div>
+       </div>
 
 
 

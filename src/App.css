@@ -304,9 +304,8 @@ table input[type='checkbox'] {
 }
 .stats-cards {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   margin: 2rem 0;
-  justify-content: space-between;
 }
 
 .tile {
@@ -314,15 +313,18 @@ table input[type='checkbox'] {
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  padding: 1.25rem;
+  padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .tile-title {
   font-size: 0.9rem;
   color: #6b7280;
   font-weight: 500;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .tile-value {
@@ -333,7 +335,10 @@ table input[type='checkbox'] {
 
 .tile-trend {
   font-size: 0.875rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .tile-trend.up {
@@ -342,4 +347,10 @@ table input[type='checkbox'] {
 
 .tile-trend.down {
   color: #ef4444;
+}
+
+.tile-trend .icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
 }
