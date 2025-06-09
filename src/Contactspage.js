@@ -126,8 +126,9 @@ export default function ContactsPage() {
             <div className="tile-value">{stats.total}</div>
             <div className="tile-trend up">
               <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
+
               <span>+11 past 30 days</span>
             </div>
             </div>
@@ -137,8 +138,9 @@ export default function ContactsPage() {
             <div className="tile-value">{stats.subscribed}</div>
             <div className="tile-trend up">
               <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
+
               <span>+6 past 30 days</span>
             </div>
            </div>
@@ -148,8 +150,9 @@ export default function ContactsPage() {
             <div className="tile-value">{stats.unsubscribed}</div>
             <div className="tile-trend down">
               <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m14 0H5" />
+                 <path d="M21 7l-6 6-4-4-8 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
+
               <span>+5 past 30 days</span>
             </div>
           </div>
