@@ -30,6 +30,7 @@ export default function ContactsPage() {
   try {
     const query = new URLSearchParams({ page, limit: LIMIT, search }).toString();
     const res = await axios.get(`${API_URL}/contacts?${query}`);
+     console.log("🔍 Total Contacts from backend:", res.data.totalContacts);
     const contacts = res.data.contacts;
 
     const subscribed = contacts.filter(c => c.emailStatus === 'Subscribed').length;
@@ -54,16 +55,24 @@ export default function ContactsPage() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${API_URL}/contacts`, formData);
-      setFormData({ firstName: '', lastName: '', email: '', emailStatus: 'Subscribed', list: '', phone: '', contactStatus: '', tags: '' });
-      setShowModal(false);
-      fetchContacts();
-    } catch (err) {
-      console.error('Submit error:', err);
-    }
-  };
+  e.preventDefault();
+  try {
+    const payload = {
+      ...formData,
+      tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : []
+    };
+    console.log("Submitting contact:", payload);
+    await axios.post(`${API_URL}/contacts`, payload);
+    setFormData({
+      firstName: '', lastName: '', email: '', emailStatus: 'Subscribed',
+      list: '', phone: '', contactStatus: '', tags: ''
+    });
+    setShowModal(false);
+    fetchContacts();
+  } catch (err) {
+    console.error('Submit error:', err);
+  }
+};
 
   const toggleFilter = (key) => {
     setFilters(prev => ({ ...prev, [key]: !prev[key] }));
