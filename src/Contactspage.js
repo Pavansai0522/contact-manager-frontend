@@ -125,18 +125,27 @@ export default function ContactsPage() {
           </div>
         </div>
 
-        <div className="filter-row">
-          <input
-            type="text"
-            placeholder="Search contacts..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button className="btn-outline" onClick={() => setShowFilter(true)}>Filters</button>
-            <button className="btn-outline" disabled={!selectedContacts.length}>Export ({selectedContacts.length})</button>
-          </div>
-        </div>
+            <div className="filter-row">
+              <input
+                type="text"
+                placeholder="Search contacts..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button className="btn-outline" onClick={() => setShowFilter(true)}>Filters</button>
+                <button className="btn-outline" disabled={!selectedContacts.length}>
+                  Export ({selectedContacts.length})
+                </button>
+
+                {selectedContacts.length > 0 && (
+                  <button className="btn-outline danger" onClick={handleDeleteSelected}>
+                    Delete Selected
+                  </button>
+                )}
+              </div>
+            </div>
+
 
         <table>
           <thead>
