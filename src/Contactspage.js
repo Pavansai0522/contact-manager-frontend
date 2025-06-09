@@ -99,6 +99,18 @@ export default function ContactsPage() {
       console.error('Delete error:', err);
     }
   };
+  const handleDeleteSelected = async () => {
+  try {
+    await Promise.all(
+      selectedContacts.map(id => axios.delete(`${API_URL}/contacts/${id}`))
+    );
+    setSelectedContacts([]);
+    fetchContacts();
+  } catch (err) {
+    console.error('Bulk delete error:', err);
+  }
+};
+
 
   return (
     <div className="container">

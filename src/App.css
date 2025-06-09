@@ -337,3 +337,10 @@ table input[type='checkbox'] {
 .dropdown-menu button:hover {
   background-color: #f3f4f6;
 }
+.btn-outline.danger {
+  border: 1px solid #dc2626;
+  color: #dc2626;
+}
+.btn-outline.danger:hover {
+  background-color: #fee2e2;
+}
