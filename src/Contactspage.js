@@ -123,38 +123,44 @@ export default function ContactsPage() {
         <div className="stats-cards">
           <div className="tile">
            <div className="tile-title">Total contacts</div>
-            <div className="tile-value">{stats.total}</div>
-            <div className="tile-trend up">
-              <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="tile-value-with-trend">
+              <span className="tile-value">{stats.total}</span>
+              <span className="tile-trend up">
+                <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-
-              <span>+11 past 30 days</span>
+                </svg>
+                <span>+11 past 30 days</span>
+              </span>
             </div>
+
             </div>
 
            <div className="tile">
             <div className="tile-title">Subscribed</div>
-            <div className="tile-value">{stats.subscribed}</div>
-            <div className="tile-trend up">
-              <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <div className="tile-value-with-trend">
+            <span className="tile-value">{stats.total}</span>
+            <span className="tile-trend up">
+              <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
+              <span>+11 past 30 days</span>
+            </span>
+          </div>
 
-              <span>+6 past 30 days</span>
-            </div>
            </div>
 
            <div className="tile">
             <div className="tile-title">Not subscribed</div>
-            <div className="tile-value">{stats.unsubscribed}</div>
-            <div className="tile-trend down">
-              <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path d="M21 7l-6 6-4-4-8 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-
-              <span>+5 past 30 days</span>
+            <div className="tile-value-with-trend">
+              <span className="tile-value">{stats.total}</span>
+              <span className="tile-trend up">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M21 7l-6 6-4-4-8 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                <span>+11 past 30 days</span>
+              </span>
             </div>
+
           </div>
        </div>
 
