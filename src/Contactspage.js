@@ -111,8 +111,8 @@ export default function ContactsPage() {
           </div>
         </div>
 
-                <div className="stats">
-          <div className="stat-card">
+        <div className="stats">
+            <div className="stat-card">
             <div className="stat-label">Total contacts</div>
             <div className="stat-number">{stats.total}</div>
             <div className="stat-change green">↑ +11 past 30 days</div>
