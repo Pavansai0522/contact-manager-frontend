@@ -304,7 +304,6 @@ table input[type='checkbox'] {
 }
 .stats-cards {
   display: flex;
-  gap: 1.5rem;
   margin: 2rem 0;
 }
 
