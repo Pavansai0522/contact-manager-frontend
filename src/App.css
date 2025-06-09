@@ -306,7 +306,10 @@ table input[type='checkbox'] {
   display: flex;
   gap: 1.5rem;
   margin: 1.5rem 0;
+  flex-wrap: nowrap; /* ✅ prevent wrapping */
+  overflow-x: auto;   /* ✅ allow horizontal scroll if too narrow */
 }
+
 
 .stat-card {
   background: #fff;
@@ -319,6 +322,7 @@ table input[type='checkbox'] {
   display: flex;
   flex-direction: column;
   justify-content: center;
+   flex-shrink: 0;
 }
 
 .stat-label {
