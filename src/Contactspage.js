@@ -1,4 +1,4 @@
-// EnhancedContactsPage.js with top-right dropdown for selected contacts
+// ContactsPage.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -21,7 +21,7 @@ export default function ContactsPage() {
     firstName: '', lastName: '', email: '', emailStatus: 'Subscribed', list: '',
     phone: '', contactStatus: '', tags: ''
   });
-  const [showActionMenu, setShowActionMenu] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   useEffect(() => {
     fetchContacts();
@@ -60,7 +60,11 @@ export default function ContactsPage() {
         ...formData,
         tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : []
       };
-      await axios.post(`${API_URL}/contacts`, payload);
+      if (formData._id) {
+        await axios.put(`${API_URL}/contacts/${formData._id}`, payload);
+      } else {
+        await axios.post(`${API_URL}/contacts`, payload);
+      }
       setFormData({
         firstName: '', lastName: '', email: '', emailStatus: 'Subscribed',
         list: '', phone: '', contactStatus: '', tags: ''
@@ -82,26 +86,25 @@ export default function ContactsPage() {
     );
   };
 
-  const handleDeleteSelected = async () => {
-    try {
-      await Promise.all(selectedContacts.map(id => axios.delete(`${API_URL}/contacts/${id}`)));
-      fetchContacts();
-    } catch (err) {
-      console.error('Batch delete error:', err);
-    }
+  const handleEdit = (contact) => {
+    setFormData(contact);
+    setShowModal(true);
   };
 
-  const handleEditSelected = () => {
-    alert('Edit selected: ' + selectedContacts.join(', '));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/contacts/${id}`);
+      fetchContacts();
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
   };
 
   return (
     <div className="container">
       <aside className="sidebar">
         <h2>Customers</h2>
-        <ul>
-          <li className="active">Contacts</li>
-        </ul>
+        <ul><li className="active">Contacts</li></ul>
       </aside>
 
       <main className="main-content">
@@ -120,20 +123,6 @@ export default function ContactsPage() {
             <button className="btn-outline">Import Contacts</button>
             <button className="btn-filled" onClick={() => setShowModal(true)}>Add a Contact</button>
           </div>
-        </div>
-
-        <div className="table-actions">
-          {selectedContacts.length > 0 && (
-            <div className="dropdown-wrapper">
-              <button onClick={() => setShowActionMenu(!showActionMenu)}>⋮</button>
-              {showActionMenu && (
-                <div className="dropdown-menu">
-                  <button onClick={handleEditSelected}>Edit</button>
-                  <button onClick={handleDeleteSelected}>Delete</button>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         <div className="filter-row">
@@ -159,6 +148,7 @@ export default function ContactsPage() {
               <th>Phone</th>
               <th>Contact Status</th>
               <th>Modified</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -171,6 +161,17 @@ export default function ContactsPage() {
                 <td>{c.phone}</td>
                 <td><span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>{c.contactStatus || 'N/A'}</span></td>
                 <td>{c.updatedAt && !isNaN(Date.parse(c.updatedAt)) ? new Date(c.updatedAt).toLocaleDateString() : '—'}</td>
+                <td>
+                  <div className="row-menu-wrapper" onClick={e => e.stopPropagation()}>
+                    <button className="dots-button" onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}>⋮</button>
+                    {activeMenu === c._id && (
+                      <div className="dropdown-menu">
+                        <button onClick={() => handleEdit(c)}>Edit</button>
+                        <button onClick={() => handleDelete(c._id)}>Delete</button>
+                      </div>
+                    )}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -183,7 +184,40 @@ export default function ContactsPage() {
         </div>
       </main>
 
-      {/* Modal and filter dialogs stay unchanged */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>{formData._id ? 'Edit Contact' : 'Add a Contact'}</h3>
+            <p className="subtext">{formData._id ? 'Update details' : 'Add individual contact details'}</p>
+            <form className="modal-grid" onSubmit={handleSubmit}>
+              <input name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" />
+              <input name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" />
+              <input name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" required />
+              <select name="emailStatus" value={formData.emailStatus} onChange={handleChange}>
+                <option value="Subscribed">Subscribed</option>
+                <option value="Unsubscribed">Unsubscribed</option>
+                <option value="Not Specified">Not Specified</option>
+              </select>
+              <input name="list" value={formData.list} onChange={handleChange} placeholder="Add to List(s)" />
+              <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
+              <select name="contactStatus" value={formData.contactStatus} onChange={handleChange}>
+                <option value="">Select Contact Status</option>
+                <option value="New Lead">New Lead</option>
+                <option value="Engaged Lead">Engaged Lead</option>
+                <option value="Stale Lead">Stale Lead</option>
+                <option value="New Sale">New Sale</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <input name="tags" value={formData.tags} onChange={handleChange} placeholder="Contact Tags" />
+              <div className="modal-buttons">
+                <button type="button" className="btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
+                <button type="submit" className="btn-filled">{formData._id ? 'Save Changes' : 'Add & Close'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
