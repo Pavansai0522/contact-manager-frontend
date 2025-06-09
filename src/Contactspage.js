@@ -121,22 +121,26 @@ export default function ContactsPage() {
         </div>
 
         <div className="stats">
-          <div className="stat-card">
-            <div className="stat-label">Total contacts</div>
-            <div className="stat-number">{stats.total}</div>
-            <div className="stat-change green">↑ +11 past 30 days</div>
+          <div className="stats-cards">
+          <div className="tile">
+            <div className="tile-title">Total contacts</div>
+            <div className="tile-value">{stats.total}</div>
+            <div className="tile-trend up">📈 +6 past 30 days</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Subscribed</div>
-            <div className="stat-number">{stats.subscribed}</div>
-            <div className="stat-change green">↑ +6 past 30 days</div>
+
+          <div className="tile">
+            <div className="tile-title">Subscribed</div>
+            <div className="tile-value">{stats.subscribed}</div>
+            <div className="tile-trend up">📈 +6 past 30 days</div>
           </div>
-          <div className="stat-card">
-            <div className="stat-label">Unsubscribed</div>
-            <div className="stat-number">{stats.unsubscribed}</div>
-            <div className="stat-change red">↓ -2 past 30 days</div>
+
+          <div className="tile">
+            <div className="tile-title">Not subscribed</div>
+            <div className="tile-value">{stats.unsubscribed}</div>
+            <div className="tile-trend down">📉 +5 past 30 days</div>
           </div>
         </div>
+
 
 
 

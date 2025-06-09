@@ -302,46 +302,44 @@ table input[type='checkbox'] {
 .sidebar {
   padding-top: 2rem;
 }
-.stats {
+.stats-cards {
   display: flex;
-  gap: 1.5rem;
-  margin: 1.5rem 0;
+  gap: 1rem;
+  margin: 2rem 0;
+  justify-content: space-between;
 }
 
-.stat-card {
+.tile {
+  flex: 1;
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  padding: 20px;
-  width: 100%;
-  max-width: 240px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.stat-label {
-  font-size: 14px;
+.tile-title {
+  font-size: 0.9rem;
   color: #6b7280;
-  margin-bottom: 6px;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
 }
 
-.stat-number {
-  font-size: 28px;
+.tile-value {
+  font-size: 2rem;
   font-weight: 700;
   color: #111827;
 }
 
-.stat-change {
-  font-size: 13px;
-  margin-top: 6px;
+.tile-trend {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-.stat-change.green {
+.tile-trend.up {
   color: #10b981;
 }
 
-.stat-change.red {
+.tile-trend.down {
   color: #ef4444;
 }
