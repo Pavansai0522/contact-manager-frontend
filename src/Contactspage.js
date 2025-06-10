@@ -169,7 +169,7 @@ export default function ContactsPage() {
                     <span className="tile-value">{stats.unsubscribed}</span>
                     <span className="tile-trend down">
                       <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M21 7l-6 6-4-4-8 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M6 9l6 6 6-6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       +5 past 30 days
                     </span>
