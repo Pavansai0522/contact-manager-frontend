@@ -142,9 +142,10 @@ export default function ContactsPage() {
                   <div className="tile-value-with-trend">
                     <span className="tile-value">{stats.total}</span>
                     <span className="tile-trend up">
-                      <svg className="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-                      <path d="M3 13l6-6 4 4 4-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+
 
                       +11 past 30 days
                     </span>
@@ -156,9 +157,10 @@ export default function ContactsPage() {
                   <div className="tile-value-with-trend">
                     <span className="tile-value">{stats.subscribed}</span>
                     <span className="tile-trend up">
-                      <svg className="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-                         <path d="M3 13l6-6 4 4 4-4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                       </svg>
+                      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+
 
                       +6 past 30 days
                     </span>
@@ -170,9 +172,11 @@ export default function ContactsPage() {
                   <div className="tile-value-with-trend">
                     <span className="tile-value">{stats.unsubscribed}</span>
                     <span className="tile-trend down">
-                      <svg className="icon" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-                          <path d="M17 7l-6 6-4-4-4 4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M21 7l-6 6-4-4-8 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
+
+
 
                       +5 past 30 days
                     </span>

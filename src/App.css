@@ -406,6 +406,7 @@ table input[type='checkbox'] {
   width: 16px;
   height: 16px;
   stroke-width: 2;
+    stroke: currentColor;
 }
 
 /* === Danger Button Styling === */
