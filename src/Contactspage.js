@@ -142,9 +142,15 @@ export default function ContactsPage() {
                   <div className="tile-value-with-trend">
                     <span className="tile-value">{stats.total}</span>
                     <span className="tile-trend up">
-                      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                     <svg
+                         className="icon"
+                         viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                       >       
+                            <path d="M21,5H17a1,1,0,0,0,0,2h1.59L14,11.59l-2.29-2.3a1,1,0,0,0-1.42,0l-8,8a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L11,11.41l2.29,2.3a1,1,0,0,0,1.42,0L20,8.41V10a1,1,0,0,0,2,0V6A1,1,0,0,0,21,5Z" />
                       </svg>
+
 
 
                       +11 past 30 days
@@ -157,9 +163,15 @@ export default function ContactsPage() {
                   <div className="tile-value-with-trend">
                     <span className="tile-value">{stats.subscribed}</span>
                     <span className="tile-trend up">
-                      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <path d="M3 17l6-6 4 4 8-8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                       className="icon"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor"
+                          >
+                          <path d="M21,5H17a1,1,0,0,0,0,2h1.59L14,11.59l-2.29-2.3a1,1,0,0,0-1.42,0l-8,8a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L11,11.41l2.29,2.3a1,1,0,0,0,1.42,0L20,8.41V10a1,1,0,0,0,2,0V6A1,1,0,0,0,21,5Z" />
                       </svg>
+
 
 
                       +6 past 30 days
@@ -172,12 +184,15 @@ export default function ContactsPage() {
                   <div className="tile-value-with-trend">
                     <span className="tile-value">{stats.unsubscribed}</span>
                     <span className="tile-trend down">
-                      <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M21 7l-6 6-4-4-8 8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-
-
-
+                     <svg
+                      className="icon"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                    >
+                      <path d="M21 19H17a1 1 0 0 1 0-2h1.59L14 12.41l-2.29 2.3a1 1 0 0 1-1.42 0l-8-8a1 1 0 0 1 1.42-1.42L11 12.59l2.29-2.3a1 1 0 0 1 1.42 0L20 15.59V14a1 1 0 0 1 2 0v4a1 1 0 0 1-1 1Z" />
+                     </svg>
+                     
                       +5 past 30 days
                     </span>
                   </div>
