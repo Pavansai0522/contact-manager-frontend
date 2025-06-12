@@ -110,6 +110,18 @@ export default function ContactsPage() {
     console.error('Bulk delete error:', err);
   }
 };
+const handleImportContacts = async () => {
+  try {
+    const res = await axios.post("http://localhost:8080/api/contacts/import");
+    const imported = res.data;
+
+    // Append imported contacts to existing list
+    setContacts(prev => [...prev, ...imported]);
+  } catch (err) {
+    console.error("Import failed:", err);
+  }
+};
+
 
 
   return (
@@ -132,7 +144,7 @@ export default function ContactsPage() {
             </div>
           </div>
           <div className="header-buttons">
-            <button className="btn-outline">Import Contacts</button>
+            <button className="btn-outline" onClick={handleImportContacts}>Import Contacts</button>
             <button className="btn-filled" onClick={() => setShowModal(true)}>Add a Contact</button>
           </div>
         </div>
