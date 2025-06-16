@@ -1,7 +1,12 @@
 // ContactsPage.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './App.css';
+import API from './api';
+
+API.get('/contacts').then((res) => {
+  console.log(res.data);
+});
+
 
 const API_URL = 'https://contact-manager-backend-ygfd.onrender.com';
 const LIMIT = 15;
@@ -30,7 +35,7 @@ export default function ContactsPage() {
   const fetchContacts = async () => {
     try {
       const query = new URLSearchParams({ page, limit: LIMIT, search }).toString();
-      const res = await axios.get(`${API_URL}/contacts?${query}`);
+      const res = await API.get(`/contacts?${query}`);
       const contacts = res.data.contacts;
 
       const subscribed = contacts.filter(c => c.emailStatus === 'Subscribed').length;
@@ -61,9 +66,9 @@ export default function ContactsPage() {
         tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()) : []
       };
       if (formData._id) {
-        await axios.put(`${API_URL}/contacts/${formData._id}`, payload);
+        await API.put(`/contacts/${formData._id}`, payload);
       } else {
-        await axios.post(`${API_URL}/contacts`, payload);
+        await API.post(`/contacts`, payload);
       }
       setFormData({
         firstName: '', lastName: '', email: '', emailStatus: 'Subscribed',
@@ -93,7 +98,8 @@ export default function ContactsPage() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/contacts/${id}`);
+      await API.delete(`/contacts/${id}`);
+
       fetchContacts();
     } catch (err) {
       console.error('Delete error:', err);
@@ -102,7 +108,7 @@ export default function ContactsPage() {
   const handleDeleteSelected = async () => {
   try {
     await Promise.all(
-      selectedContacts.map(id => axios.delete(`${API_URL}/contacts/${id}`))
+      selectedContacts.map(id => API.delete(`/contacts/${id}`))
     );
     setSelectedContacts([]);
     fetchContacts();
@@ -112,8 +118,8 @@ export default function ContactsPage() {
 };
 const handleImportContacts = async () => {
   try {
-    const res = await axios.post("http://localhost:8080/api/contacts/import");
-    const imported = res.data;
+    const res = await API.post("/contacts/import");
+   const imported = res.data;
 
     // Append imported contacts to existing list
     setContacts(prev => [...prev, ...imported]);
