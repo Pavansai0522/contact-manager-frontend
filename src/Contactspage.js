@@ -99,13 +99,15 @@ export default function ContactsPage() {
   };
 
  const handleSelect = (id) => {
-  const updated = selectedContacts.includes(id)
-    ? selectedContacts.filter(x => x !== id)
-    : [...selectedContacts, id];
-
-  console.log('Updated selectedContacts:', updated); // <--- Check this
-  setSelectedContacts(updated);
+  setSelectedContacts(prev => {
+    const updated = prev.includes(id)
+      ? prev.filter(item => item !== id)
+      : [...prev, id];
+    console.log("Selected contacts:", updated); // ✅ Confirms real-time
+    return updated;
+  });
 };
+
 
 
   const handleEdit = (contact) => {
@@ -124,18 +126,22 @@ export default function ContactsPage() {
   };
  const handleDeleteSelected = async () => {
   if (!selectedContacts.length) return;
-      console.log("Deleting selected contacts:", selectedContacts);
-  try {
-    const deletePromises = selectedContacts.map(id => API.delete(`/contacts/${id}`));
-    await Promise.all(deletePromises);
+  console.log("Deleting selected contacts:", selectedContacts); // ✅ Confirming array
 
+  try {
+    await Promise.all(
+      selectedContacts.map(async (id) => {
+        console.log("Deleting ID:", id);
+        await API.delete(`/contacts/${id}`);
+      })
+    );
     setSelectedContacts([]);
-    setActiveMenu(null); // optional: closes any dropdown
     fetchContacts();
-  } catch (error) {
-    console.error('Bulk delete error:', error);
+  } catch (err) {
+    console.error("Bulk delete error:", err);
   }
 };
+
 
 
 
@@ -255,10 +261,11 @@ const handleImportContacts = async () => {
                 </button>
 
                 {selectedContacts.length > 0 && (
-                  <button className="btn-outline danger" onClick={handleDeleteSelected}>
-                    Delete Selected
-                  </button>
-                )}
+                <button className="btn-outline danger" onClick={handleDeleteSelected}>
+                  Delete Selected
+                </button>
+              )}
+
               </div>
             </div>
 
