@@ -100,13 +100,15 @@ export default function ContactsPage() {
  
  
  const handleSelect = (id) => {
-  setSelectedContacts((prev) =>
-    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-  );
-  console.log("Selected contacts:", selectedContacts);
-
-
+  setSelectedContacts((prev) => {
+    const updated = prev.includes(id)
+      ? prev.filter((x) => x !== id)
+      : [...prev, id];
+    console.log("Selected contacts:", updated);
+    return updated;
+  });
 };
+
 
 
 
@@ -300,7 +302,7 @@ const handleImportContacts = async () => {
                         type="checkbox"
                         value={c._id}
                         checked={selectedContacts.includes(c._id)}
-                        onChange={(e) => handleSelect(e.target.value)}
+                          onChange={() => handleSelect(c._id)}
                       />
 
 
@@ -325,23 +327,24 @@ const handleImportContacts = async () => {
                         ? new Date(c.updatedAt).toLocaleDateString()
                         : '—'}
                     </td>
-                    <td style={{ position: 'relative', zIndex: 10 }}>
+                    <td style={{ position: 'relative' }}>
                       <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
                         <button
                           className="dots-button"
-                          onClick={() => setActiveMenu(activeMenu === String(c._id) ? null : String(c._id))}
+                          onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect();
+                            setActiveMenu({
+                              id: c._id,
+                              top: rect.bottom + window.scrollY,
+                              left: rect.left + window.scrollX
+                            });
+                          }}
                         >
                           ⋮
                         </button>
-                        {activeMenu === String(c._id) && (
-                           <div className="dropdown-menu">
-
-                            <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
-                            <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
-                          </div>
-                        )}
                       </div>
                     </td>
+
                   </tr>
                 ))}
               </tbody>
