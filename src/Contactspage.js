@@ -120,6 +120,8 @@ export default function ContactsPage() {
   };
   const handleDeleteSelected = async () => {
   try {
+    console.log("Selected contacts to delete:", selectedContacts);
+
     await Promise.all(
       selectedContacts.map(id => API.delete(`/contacts/${id}`))
     );
