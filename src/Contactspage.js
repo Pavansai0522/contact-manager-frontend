@@ -119,28 +119,21 @@ export default function ContactsPage() {
     }
   };
  const handleDeleteSelected = async () => {
+  if (!selectedContacts.length) return;
+      console.log("Deleting selected contacts:", selectedContacts);
   try {
-    if (selectedContacts.length === 0) return;
-
-    await Promise.all(
-      selectedContacts.map(async (id) => {
-        const res = await API.delete(`/contacts/${id}`);
-        return res;
-      })
-    );
-    setActiveMenu(null);
+    const deletePromises = selectedContacts.map(id => API.delete(`/contacts/${id}`));
+    await Promise.all(deletePromises);
 
     setSelectedContacts([]);
-    
-    // Add short delay before fetch to ensure backend has finalized deletions
-    setTimeout(() => {
-      fetchContacts();
-    }, 300); // 300ms delay
-
-  } catch (err) {
-    console.error('Bulk delete error:', err);
+    setActiveMenu(null); // optional: closes any dropdown
+    fetchContacts();
+  } catch (error) {
+    console.error('Bulk delete error:', error);
   }
 };
+
+
 
 
 const handleImportContacts = async () => {
@@ -280,52 +273,53 @@ const handleImportContacts = async () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {contacts.map((c) => (
-                    <tr key={c._id} style={{ position: 'relative', zIndex: 0 }}>
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={selectedContacts.includes(c._id)}
-                          onChange={() => handleSelect(c._id)}
-                        />
-                      </td>
-                      <td>{c.firstName} {c.lastName}</td>
-                      <td>{c.email}</td>
-                      <td>
-                        <span className={`badge ${c.emailStatus.toLowerCase().replace(/ /g, '-')}`}>
-                          {c.emailStatus}
-                        </span>
-                      </td>
-                      <td>{c.phone}</td>
-                      <td>
-                        <span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>
-                          {c.contactStatus || 'N/A'}
-                        </span>
-                      </td>
-                      <td>
-                        {c.updatedAt && !isNaN(Date.parse(c.updatedAt))
-                          ? new Date(c.updatedAt).toLocaleDateString()
-                          : '—'}
-                      </td>
-                      <td style={{ position: 'relative', zIndex: 10 }}>
-                        <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
-                          <button
-                            className="dots-button"
-                            onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}
-                          >
-                            ⋮
-                          </button>
-                          {activeMenu === c._id ? (
-                            <div className="dropdown-menu">
-                              <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
-                              <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
-                            </div>
-                          ) : null}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                {contacts.map((c) => (
+                  <tr key={c._id} style={{ position: 'relative', zIndex: 0 }}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={selectedContacts.includes(c._id)}
+                        onChange={() => handleSelect(c._id)}
+                      />
+                    </td>
+                    <td>{c.firstName} {c.lastName}</td>
+                    <td>{c.email}</td>
+                    <td>
+                      <span className={`badge ${c.emailStatus.toLowerCase().replace(/ /g, '-')}`}>
+                        {c.emailStatus}
+                      </span>
+                    </td>
+                    <td>{c.phone}</td>
+                    <td>
+                      <span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>
+                        {c.contactStatus || 'N/A'}
+                      </span>
+                    </td>
+                    <td>
+                      {c.updatedAt && !isNaN(Date.parse(c.updatedAt))
+                        ? new Date(c.updatedAt).toLocaleDateString()
+                        : '—'}
+                    </td>
+                    <td style={{ position: 'relative', zIndex: 10 }}>
+                      <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
+                        <button
+                          className="dots-button"
+                          onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}
+                        >
+                          ⋮
+                        </button>
+                        {activeMenu === c._id && (
+                          <div className="dropdown-menu">
+                            <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
+                            <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+
               </table>
             </div>
 
