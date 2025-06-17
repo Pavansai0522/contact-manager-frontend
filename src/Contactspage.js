@@ -296,6 +296,8 @@ const handleImportContacts = async () => {
                 </thead>
                 <tbody>
                 {contacts.map((c) => (
+                  console.log("Contact object:", c);
+                  
                   <tr key={c?._id} style={{ position: 'relative', zIndex: 0 }}>
                     <td>
                        <input
