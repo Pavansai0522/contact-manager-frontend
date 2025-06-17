@@ -124,21 +124,27 @@ export default function ContactsPage() {
       console.error('Delete error:', err);
     }
   };
+ 
  const handleDeleteSelected = async () => {
-  if (!selectedContacts.length) return;
-  console.log("Deleting selected contacts:", selectedContacts); // ✅ Confirming array
+  console.log("🔥 Deleting selected contacts:", selectedContacts);
+
+  const validIds = selectedContacts.filter(id => id); // remove undefined
+  if (validIds.length === 0) {
+    console.warn("🚫 No valid IDs selected");
+    return;
+  }
 
   try {
-    await Promise.all(
-      selectedContacts.map(async (id) => {
-        console.log("Deleting ID:", id);
-        await API.delete(`/contacts/${id}`);
-      })
-    );
+    for (const id of validIds) {
+      console.log("Deleting ID:", id);
+      await API.delete(`/contacts/${id}`);
+    }
+
     setSelectedContacts([]);
+    setActiveMenu(null);
     fetchContacts();
-  } catch (err) {
-    console.error("Bulk delete error:", err);
+  } catch (error) {
+    console.error("❌ Bulk delete error:", error);
   }
 };
 
@@ -285,13 +291,14 @@ const handleImportContacts = async () => {
                 </thead>
                 <tbody>
                 {contacts.map((c) => (
-                  <tr key={c._id} style={{ position: 'relative', zIndex: 0 }}>
+                  <tr key={c?._id} style={{ position: 'relative', zIndex: 0 }}>
                     <td>
                       <input
-                        type="checkbox"
-                        checked={selectedContacts.includes(c._id)}
-                        onChange={() => handleSelect(c._id)}
-                      />
+                      type="checkbox"
+                      checked={selectedContacts.includes(c?._id)}
+                      onChange={() => handleSelect(c?._id)}
+                    />
+
                     </td>
                     <td>{c.firstName} {c.lastName}</td>
                     <td>{c.email}</td>
