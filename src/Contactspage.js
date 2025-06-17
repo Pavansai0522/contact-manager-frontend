@@ -39,10 +39,9 @@ export default function ContactsPage() {
     }
   };
   document.addEventListener('click', handleClickOutside);
-  return () => {
-    document.removeEventListener('click', handleClickOutside);
-  };
+  return () => document.removeEventListener('click', handleClickOutside);
 }, []);
+
 
 
   const fetchContacts = async () => {
@@ -105,6 +104,7 @@ export default function ContactsPage() {
     prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
   );
   console.log("Selected contacts:", selectedContacts);
+
 
 };
 
@@ -329,12 +329,13 @@ const handleImportContacts = async () => {
                       <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
                         <button
                           className="dots-button"
-                          onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}
+                          onClick={() => setActiveMenu(activeMenu === String(c._id) ? null : String(c._id))}
                         >
                           ⋮
                         </button>
-                        {activeMenu === c._id && (
-                          <div className="dropdown-menu">
+                        {activeMenu === String(c._id) && (
+                           <div className="dropdown-menu">
+
                             <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
                             <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
                           </div>
