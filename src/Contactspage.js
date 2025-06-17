@@ -100,18 +100,12 @@ export default function ContactsPage() {
  
  
     const handleSelect = (id) => {
-    console.log("👉 handleSelect received:", id); // debug log
-    if (!id) return;
+     console.log("✅ handleSelect received:", id);
+  setSelectedContacts((prev) =>
+    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+  );
+};
 
-    setSelectedContacts((prev) => {
-      const updated = prev.includes(id)
-        ? prev.filter((x) => x !== id)
-        : [...prev, id];
-
-      console.log("✅ Updated selectedContacts:", updated);
-      return updated;
-    });
-  };
 
 
 
@@ -295,15 +289,19 @@ const handleImportContacts = async () => {
                   </tr>
                 </thead>
                 <tbody>
-                {contacts.map((c) => (
+                {contacts.map((c) => {
                   console.log("Contact object:", c);
-                  
+                  return (
                   <tr key={c?._id} style={{ position: 'relative', zIndex: 0 }}>
                     <td>
                        <input
                         type="checkbox"
                         checked={selectedContacts.includes(c._id)}
-                          onChange={() => handleSelect(c._id)}
+                        onChange={() => {
+                        console.log("handleSelect triggered for ID:", c._id);
+                         handleSelect(c._id);
+                      }}
+
                       />
 
 
@@ -347,9 +345,9 @@ const handleImportContacts = async () => {
                     </td>
 
                   </tr>
-                ))}
-              </tbody>
-
+                  );
+                })}
+                </tbody>
               </table>
             </div>
 
