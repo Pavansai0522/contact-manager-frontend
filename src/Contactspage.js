@@ -112,23 +112,36 @@ export default function ContactsPage() {
   const handleDelete = async (id) => {
     try {
       await API.delete(`/contacts/${id}`);
-
+      setActiveMenu(null);
       fetchContacts();
     } catch (err) {
       console.error('Delete error:', err);
     }
   };
-  const handleDeleteSelected = async () => {
+ const handleDeleteSelected = async () => {
   try {
+    if (selectedContacts.length === 0) return;
+
     await Promise.all(
-      selectedContacts.map(id => API.delete(`/contacts/${id}`))
+      selectedContacts.map(async (id) => {
+        const res = await API.delete(`/contacts/${id}`);
+        return res;
+      })
     );
+    setActiveMenu(null);
+
     setSelectedContacts([]);
-    fetchContacts(); // Refresh list after deletion
+    
+    // Add short delay before fetch to ensure backend has finalized deletions
+    setTimeout(() => {
+      fetchContacts();
+    }, 300); // 300ms delay
+
   } catch (err) {
     console.error('Bulk delete error:', err);
   }
 };
+
 
 const handleImportContacts = async () => {
   try {
