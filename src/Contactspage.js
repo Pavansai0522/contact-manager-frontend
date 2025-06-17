@@ -301,12 +301,12 @@ const handleImportContacts = async () => {
                           >
                             ⋮
                           </button>
-                          {activeMenu === c._id && (
+                          {activeMenu === c._id ? (
                             <div className="dropdown-menu">
                               <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
                               <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
                             </div>
-                          )}
+                          ) : null}
                         </div>
                       </td>
                     </tr>
