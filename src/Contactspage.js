@@ -109,13 +109,7 @@ export default function ContactsPage() {
   });
 };
 
-
-
-
-
-
-
-  const handleEdit = (contact) => {
+    const handleEdit = (contact) => {
     setFormData(contact);
     setShowModal(true);
   };
@@ -146,7 +140,7 @@ export default function ContactsPage() {
     }
 
     setSelectedContacts([]);
-    setActiveMenu(null);
+   
     fetchContacts();
   } catch (error) {
     console.error("❌ Bulk delete error:", error);
@@ -300,7 +294,6 @@ const handleImportContacts = async () => {
                     <td>
                        <input
                         type="checkbox"
-                        value={c._id}
                         checked={selectedContacts.includes(c._id)}
                           onChange={() => handleSelect(c._id)}
                       />
