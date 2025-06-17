@@ -306,26 +306,29 @@ tr {
   position: relative;
 }
 
-
-.row-menu-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
 td {
+  overflow: visible !important;
   position: relative;
 }
+
 
 .dropdown-menu {
   position: absolute;
   top: 100%;
   right: 0;
-  z-index: 999;
   background: white;
   border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 999;
 }
+
+.row-menu-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
 
 
 
