@@ -32,6 +32,19 @@ export default function ContactsPage() {
     fetchContacts();
   }, [page, search]);
 
+  useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (!e.target.closest('.row-menu-wrapper')) {
+      setActiveMenu(null);
+    }
+  };
+  document.addEventListener('click', handleClickOutside);
+  return () => {
+    document.removeEventListener('click', handleClickOutside);
+  };
+}, []);
+
+
   const fetchContacts = async () => {
     try {
       const query = new URLSearchParams({ page, limit: LIMIT, search }).toString();
@@ -267,8 +280,9 @@ const handleImportContacts = async () => {
                     <button className="dots-button" onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}>⋮</button>
                     {activeMenu === c._id && (
                       <div className="dropdown-menu">
-                        <button onClick={() => handleEdit(c)}>Edit</button>
-                        <button onClick={() => handleDelete(c._id)}>Delete</button>
+                        <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
+                        <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
+
                       </div>
                     )}
                   </div>
