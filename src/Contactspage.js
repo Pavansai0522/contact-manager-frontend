@@ -99,14 +99,11 @@ export default function ContactsPage() {
   };
 
  const handleSelect = (id) => {
-  if (!id) return;
-
   setSelectedContacts((prev) =>
-    prev.includes(id)
-      ? prev.filter((x) => x !== id)
-      : [...prev, id]
+    prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
   );
 };
+
 
 
 
@@ -294,12 +291,13 @@ const handleImportContacts = async () => {
                 {contacts.map((c) => (
                   <tr key={c?._id} style={{ position: 'relative', zIndex: 0 }}>
                     <td>
-                      <input
+                        <input
                         type="checkbox"
                         value={c._id}
                         checked={selectedContacts.includes(c._id)}
                         onChange={(e) => handleSelect(e.target.value)}
                       />
+
 
 
                     </td>
