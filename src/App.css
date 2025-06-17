@@ -309,7 +309,11 @@ tr {
   position: relative;
   display: flex;
   justify-content: flex-end;
+  overflow: visible; /* Required to prevent cutoff or stacking issues */
+  z-index: 0;
 }
+
+
 
 .dots-button {
   font-size: 20px;
@@ -326,11 +330,12 @@ tr {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 999;
+  z-index: 9999; /* Important: Keep this high */
   display: flex;
   flex-direction: column;
   min-width: 120px;
 }
+
 
 .dropdown-menu button {
   padding: 10px 12px;

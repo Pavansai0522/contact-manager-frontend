@@ -276,17 +276,23 @@ const handleImportContacts = async () => {
                 <td><span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>{c.contactStatus || 'N/A'}</span></td>
                 <td>{c.updatedAt && !isNaN(Date.parse(c.updatedAt)) ? new Date(c.updatedAt).toLocaleDateString() : '—'}</td>
                 <td>
-                  <div className="row-menu-wrapper" onClick={e => e.stopPropagation()}>
-                      <button className="dots-button" onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}>⋮</button>
-                          {activeMenu === c._id && (
-                            <div className="dropdown-menu">
-                              <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
-                              <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
-                            </div>
-                          )}
-                        </div>
+                 <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    className="dots-button"
+                    onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}
+                  >
+                    ⋮
+                  </button>
+                  {activeMenu === c._id && (
+                    <div className="dropdown-menu">
+                      <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
+                      <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
+                    </div>
+                  )}
+                </div>
 
-                </td>
+
+               </td>
               </tr>
             ))}
           </tbody>
