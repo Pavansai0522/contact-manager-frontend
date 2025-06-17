@@ -98,11 +98,15 @@ export default function ContactsPage() {
     setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleSelect = (id) => {
-    setSelectedContacts(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
-  };
+ const handleSelect = (id) => {
+  const updated = selectedContacts.includes(id)
+    ? selectedContacts.filter(x => x !== id)
+    : [...selectedContacts, id];
+
+  console.log('Updated selectedContacts:', updated); // <--- Check this
+  setSelectedContacts(updated);
+};
+
 
   const handleEdit = (contact) => {
     setFormData(contact);
