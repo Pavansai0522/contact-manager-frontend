@@ -298,6 +298,13 @@ table input[type='checkbox'] {
 }
 
 /* ===== Dropdown Menu for Actions ===== */
+table {
+  overflow: visible;
+}
+
+tr {
+  position: relative;
+}
 .row-menu-wrapper {
   position: relative;
   display: flex;

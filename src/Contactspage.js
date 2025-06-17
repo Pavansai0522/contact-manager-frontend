@@ -267,7 +267,7 @@ const handleImportContacts = async () => {
           </thead>
           <tbody>
             {contacts.map((c) => (
-              <tr key={c._id}>
+              <tr key={c._id} style={{ position: 'relative' }}>
                 <td><input type="checkbox" checked={selectedContacts.includes(c._id)} onChange={() => handleSelect(c._id)} /></td>
                 <td>{c.firstName} {c.lastName}</td>
                 <td>{c.email}</td>
