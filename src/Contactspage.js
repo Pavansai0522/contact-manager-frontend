@@ -127,25 +127,21 @@ export default function ContactsPage() {
  const handleDeleteSelected = async () => {
   console.log("🔥 Deleting selected contacts:", selectedContacts);
 
-  const validIds = selectedContacts.filter(id => id); // remove undefined
+  const validIds = selectedContacts.filter((id) => typeof id === 'string' && id.length);
   if (validIds.length === 0) {
     console.warn("🚫 No valid IDs selected");
     return;
   }
 
   try {
-    for (const id of validIds) {
-      console.log("Deleting ID:", id);
-      await API.delete(`/contacts/${id}`);
-    }
-
+    await Promise.all(validIds.map(id => API.delete(`/contacts/${id}`)));
     setSelectedContacts([]);
-   
     fetchContacts();
-  } catch (error) {
-    console.error("❌ Bulk delete error:", error);
+  } catch (err) {
+    console.error("Bulk delete error:", err);
   }
 };
+
 
 
 
