@@ -120,17 +120,16 @@ export default function ContactsPage() {
   };
   const handleDeleteSelected = async () => {
   try {
-    console.log("Selected contacts to delete:", selectedContacts);
-
     await Promise.all(
       selectedContacts.map(id => API.delete(`/contacts/${id}`))
     );
     setSelectedContacts([]);
-    fetchContacts();
+    fetchContacts(); // Refresh list after deletion
   } catch (err) {
     console.error('Bulk delete error:', err);
   }
 };
+
 const handleImportContacts = async () => {
   try {
     const res = await API.post("/contacts/import");
