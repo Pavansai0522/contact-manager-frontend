@@ -309,18 +309,7 @@ tr {
 
 .row-menu-wrapper {
   position: relative;
-  display: flex;
-  justify-content: flex-end;
-  z-index: 2;
-}
-
-
-
-.dots-button {
-  font-size: 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
+  display: inline-block;
 }
 
 .dropdown-menu {
@@ -336,6 +325,17 @@ tr {
   flex-direction: column;
   min-width: 120px;
 }
+
+
+
+.dots-button {
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+
 
 
 .dropdown-menu button {

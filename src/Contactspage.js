@@ -251,46 +251,71 @@ const handleImportContacts = async () => {
               </div>
             </div>
 
+        <div style={{ overflowX: 'auto', position: 'relative', zIndex: 0 }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Email Status</th>
+                    <th>Phone</th>
+                    <th>Contact Status</th>
+                    <th>Modified</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contacts.map((c) => (
+                    <tr key={c._id} style={{ position: 'relative', zIndex: 0 }}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={selectedContacts.includes(c._id)}
+                          onChange={() => handleSelect(c._id)}
+                        />
+                      </td>
+                      <td>{c.firstName} {c.lastName}</td>
+                      <td>{c.email}</td>
+                      <td>
+                        <span className={`badge ${c.emailStatus.toLowerCase().replace(/ /g, '-')}`}>
+                          {c.emailStatus}
+                        </span>
+                      </td>
+                      <td>{c.phone}</td>
+                      <td>
+                        <span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>
+                          {c.contactStatus || 'N/A'}
+                        </span>
+                      </td>
+                      <td>
+                        {c.updatedAt && !isNaN(Date.parse(c.updatedAt))
+                          ? new Date(c.updatedAt).toLocaleDateString()
+                          : '—'}
+                      </td>
+                      <td style={{ position: 'relative', zIndex: 10 }}>
+                        <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            className="dots-button"
+                            onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}
+                          >
+                            ⋮
+                          </button>
+                          {activeMenu === c._id && (
+                            <div className="dropdown-menu">
+                              <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
+                              <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Email Status</th>
-              <th>Phone</th>
-              <th>Contact Status</th>
-              <th>Modified</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {contacts.map((c) => (
-              <tr key={c._id} style={{ position: 'relative' }}>
-                <td><input type="checkbox" checked={selectedContacts.includes(c._id)} onChange={() => handleSelect(c._id)} /></td>
-                <td>{c.firstName} {c.lastName}</td>
-                <td>{c.email}</td>
-                <td><span className={`badge ${c.emailStatus.toLowerCase().replace(/ /g, '-')}`}>{c.emailStatus}</span></td>
-                <td>{c.phone}</td>
-                <td><span className={`badge ${c.contactStatus?.toLowerCase().replace(/\s+/g, '-')}`}>{c.contactStatus || 'N/A'}</span></td>
-                <td>{c.updatedAt && !isNaN(Date.parse(c.updatedAt)) ? new Date(c.updatedAt).toLocaleDateString() : '—'}</td>
-                <td style={{ position: 'relative', overflow: 'visible', zIndex: 1 }}>
-                  <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
-                    <button className="dots-button" onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}>⋮</button>
-                    {activeMenu === c._id && (
-                      <div className="dropdown-menu">
-                        <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
-                        <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
-                      </div>
-                    )}
-                  </div>
-                </td>
-
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        
 
         <div className="pagination">
           <button onClick={() => setPage(p => Math.max(p - 1, 1))} disabled={page === 1}>Prev</button>
