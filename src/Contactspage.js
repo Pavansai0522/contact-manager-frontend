@@ -315,28 +315,29 @@ const handleImportContacts = async () => {
                         {c.contactStatus || 'N/A'}
                       </span>
                     </td>
-                    <td>
-                      {c.updatedAt && !isNaN(Date.parse(c.updatedAt))
-                        ? new Date(c.updatedAt).toLocaleDateString()
-                        : '—'}
-                    </td>
-                    <td style={{ position: 'relative' }}>
-                      <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
-                        <button
-                          className="dots-button"
-                          onClick={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect();
-                            setActiveMenu({
-                              id: c._id,
-                              top: rect.bottom + window.scrollY,
-                              left: rect.left + window.scrollX
-                            });
-                          }}
-                        >
-                          ⋮
-                        </button>
-                      </div>
-                    </td>
+                  <td>
+                    {c.updatedAt && !isNaN(Date.parse(c.updatedAt))
+                      ? new Date(c.updatedAt).toLocaleDateString()
+                      : '—'}
+                  </td>
+                  <td style={{ position: 'relative', zIndex: 10 }}>
+                    <div className="row-menu-wrapper" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        className="dots-button"
+                        onClick={() => setActiveMenu(activeMenu === c._id ? null : c._id)}
+                      >
+                        ⋮
+                      </button>
+
+                      {activeMenu === c._id && (
+                        <div className="dropdown-menu">
+                          <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
+                          <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+
 
                   </tr>
                   );

@@ -313,7 +313,9 @@ td {
 
 
 .dropdown-menu {
-  position: fixed; /* ← key change */
+  position: absolute;
+  top: 30px;
+  right: 0;
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -323,6 +325,7 @@ td {
   flex-direction: column;
   min-width: 120px;
 }
+
 
 
 .row-menu-wrapper {
