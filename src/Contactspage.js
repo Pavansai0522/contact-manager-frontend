@@ -26,21 +26,22 @@ export default function ContactsPage() {
     firstName: '', lastName: '', email: '', emailStatus: 'Subscribed', list: '',
     phone: '', contactStatus: '', tags: ''
   });
-  const [activeMenu, setActiveMenu] = useState(null);
+ const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+const [activeMenuId, setActiveMenuId] = useState(null);
 
-  useEffect(() => {
-    fetchContacts();
-  }, [page, search]);
+const toggleMenu = (e, id) => {
+  e.stopPropagation();
+  const rect = e.currentTarget.getBoundingClientRect();
+  setMenuPosition({ top: rect.bottom, left: rect.right - 130 }); // Adjust left offset as needed
+  setActiveMenuId(activeMenuId === id ? null : id);
+};
 
-  useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (!e.target.closest('.row-menu-wrapper')) {
-      setActiveMenu(null);
-    }
-  };
+useEffect(() => {
+  const handleClickOutside = () => setActiveMenuId(null);
   document.addEventListener('click', handleClickOutside);
   return () => document.removeEventListener('click', handleClickOutside);
 }, []);
+
 
 
 
@@ -329,12 +330,16 @@ const handleImportContacts = async () => {
                         ⋮
                       </button>
 
-                      {activeMenu === c._id && (
-                        <div className="dropdown-menu">
-                          <button onClick={() => { handleEdit(c); setActiveMenu(null); }}>Edit</button>
-                          <button onClick={() => { handleDelete(c._id); setActiveMenu(null); }}>Delete</button>
-                        </div>
-                      )}
+                      {activeMenuId === c._id && (
+                          <div
+                            className="dropdown-menu"
+                            style={{ top: `${menuPosition.top}px`, left: `${menuPosition.left}px` }}
+                          >
+                            <button onClick={() => handleEdit(c)}>Edit</button>
+                            <button onClick={() => handleDelete(c._id)}>Delete</button>
+                          </div>
+                        )}
+
                     </div>
                   </td>
 
