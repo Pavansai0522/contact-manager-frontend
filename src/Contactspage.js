@@ -22,6 +22,8 @@ export default function ContactsPage() {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [filters, setFilters] = useState({ subscribed: true, unsubscribed: true, notSpecified: true });
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', emailStatus: 'Subscribed', list: '',
     phone: '', contactStatus: '', tags: ''
@@ -110,10 +112,13 @@ export default function ContactsPage() {
 
 
 
-    const handleEdit = (contact) => {
-    setFormData(contact);
-    setShowModal(true);
-  };
+    const handleCloseModal = () => {
+  setFormData({});
+  setIsEditMode(false);
+  setShowModal(false);
+};
+
+
 
   const handleDelete = async (id) => {
     try {
